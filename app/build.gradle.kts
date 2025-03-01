@@ -36,7 +36,8 @@ android {
 }
 
 dependencies {
-
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.cio)
     implementation("org.nanohttpd:nanohttpd:2.3.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
