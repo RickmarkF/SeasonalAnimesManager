@@ -20,13 +20,16 @@ import kotlinx.serialization.json.Json
 
 class GetInformatioonFromMyAnimeList {
 
-    private val token:String = "";
+    private val token:String = "ad1162093716f04f8cba96898a43d093";
 
      fun getRequest(animeName:String): BaseData? {
          var baseData: BaseData? = null
          runBlocking {
             var response: HttpResponse? = null
-            val json = Json { ignoreUnknownKeys = true }
+            val json = Json {
+                ignoreUnknownKeys = true
+                prettyPrint = true
+            }
             launch {
                 val client = HttpClient(CIO) {
                     expectSuccess = true

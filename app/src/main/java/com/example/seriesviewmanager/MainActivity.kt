@@ -1,21 +1,17 @@
 package com.example.seriesviewmanager
 
 import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.bumptech.glide.Glide
 import com.example.seriesviewmanager.request.GetInformatioonFromMyAnimeList
 import com.example.seriesviewmanager.server.MyHTTPServer
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.cio.CIO
-import io.ktor.client.request.get
-import io.ktor.client.request.headers
-import io.ktor.client.statement.HttpResponse
-import io.ktor.client.statement.bodyAsBytes
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,15 +26,29 @@ class MainActivity : AppCompatActivity() {
         }
         MyHTTPServer(8080).also { it.start()}
 
+
+        val escribir : EditText = findViewById(R.id.searchAnimeEditText)
+        val textoMostrar:TextView = findViewById(R.id.searchAnimeSeeResult)
+        val send: Button = findViewById(R.id.searchAnimeSendRequest)
+
+
+        send.setOnClickListener{view-> sendInfoToMyanimeList(escribir,textoMostrar)}
+
+    }
+
+    fun sendInfoToMyanimeList (editText: EditText,mostrar: TextView)  {
+        var animeName : String = editText.text.toString()
+        println(animeName)
+
         val info = GetInformatioonFromMyAnimeList()
 
-       val data = info.getRequest("Pokemon");
+        val data = info.getRequest(animeName);
+        val node = data?.data?.get(0)?.node
 
-        println(data.toString())
+        mostrar.text = "Nombre:${node?.title}"
 
-        val texto:TextView = findViewById(R.id.searchAnimeSeeResult)
-
-        texto.text = data.toString()
-
+        val url:String = node?.mainPicture?.large.toString()
+        val image: ImageView = findViewById(R.id.imageView3)
+        Glide.with(this).load(url).into(image);
     }
 }
