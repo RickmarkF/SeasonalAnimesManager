@@ -6,11 +6,11 @@ import fi.iki.elonen.NanoHTTPD.newFixedLengthResponse
 
 class MyServerResponse {
     companion object{
-        fun getResponse(uri: String, session: NanoHTTPD.IHTTPSession):Response{
-            if (uri == "/callback") {
-               return newFixedLengthResponse("Código de autorización recibido:")
+        fun getResponse(uri: String):Response{
+            return if (uri == "/callback") {
+                newFixedLengthResponse("Código de autorización recibido:")
             } else {
-               return newFixedLengthResponse("404 Not Found")
+                newFixedLengthResponse("404 Not Found")
             }
         }
 
