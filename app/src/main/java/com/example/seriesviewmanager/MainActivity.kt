@@ -1,6 +1,5 @@
 package com.example.seriesviewmanager
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -10,7 +9,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.seriesviewmanager.adapters.CustomAdapter
+import com.example.seriesviewmanager.models.BaseData
 import com.example.seriesviewmanager.models.Data
 import com.example.seriesviewmanager.request.GetInformatioonFromMyAnimeList
 import com.example.seriesviewmanager.server.MyHTTPServer
@@ -45,16 +48,24 @@ class MainActivity : AppCompatActivity() {
 
         val info = GetInformatioonFromMyAnimeList()
 
-        val data = info.getRequest(animeName);
+        val baseData: BaseData? = info.getRequest(animeName);
 
-        var info2 : Data? = data?.data?.
+        var info2 : Data? = baseData?.data?.
             filter{it.node.title.contains(animeName,true)}?.
             firstOrNull { it.node.title.equals(animeName,true) }
 
-        if(info2!=null){
+        var data: List<Data>? = baseData?.data
+
+        if(info2!=null && data!= null){
             mostrar.text = "Nombre:${info2?.node?.title}"
             val url: String = info2.node.mainPicture.large.toString()
             Glide.with(this).load(url).into(image);
+
+            val customAdapter = CustomAdapter(data,applicationContext)
+
+            val recyclerView: RecyclerView = findViewById(R.id.recicler)
+            recyclerView.layoutManager = LinearLayoutManager(this)
+            recyclerView.adapter = customAdapter
         }else{
             mostrar.text = "El anime: ${info2?.node?.title} no se ha encontrado"
             image.setImageResource(R.drawable.element_not_found)
