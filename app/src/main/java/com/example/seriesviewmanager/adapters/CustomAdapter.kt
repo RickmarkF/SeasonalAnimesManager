@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 import com.example.seriesviewmanager.R
 import com.example.seriesviewmanager.models.Data
 
-class CustomAdapter(private val dataSet: List<Data>,private val context: Context) :
+class CustomAdapter(private val dataSet: List<Data>, private val context: Context) :
     RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

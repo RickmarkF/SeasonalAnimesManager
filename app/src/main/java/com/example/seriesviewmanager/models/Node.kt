@@ -1,6 +1,5 @@
 package com.example.seriesviewmanager.models
 
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonNames
 

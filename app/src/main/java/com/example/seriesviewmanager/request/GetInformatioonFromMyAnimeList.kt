@@ -6,6 +6,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.get
 import io.ktor.client.request.headers
 import io.ktor.client.request.parameter
@@ -22,6 +23,7 @@ class GetInformatioonFromMyAnimeList {
 
     fun getRequest(animeName: String): BaseData? {
         var baseData: BaseData? = null
+
         runBlocking {
             val json = Json {
                 ignoreUnknownKeys = true
@@ -30,21 +32,21 @@ class GetInformatioonFromMyAnimeList {
             launch {
                 val client = HttpClient(CIO) {
                     expectSuccess = true
-                    install(ContentNegotiation) {
-                        json(
-                            json
-                        )
-                    }
+                    install(ContentNegotiation) { json(json) }
                 }
-                baseData = client.get(Constants.MY_ANIME_LIST_BASE_URL + "anime") {
-                        parameter("q", URLEncoder.encode(animeName, "UTF-8"))
-                        parameter("limit",30)
-                        headers {
-                            append(Constants.MY_ANIME_LIST_HEADER_ID, token)
-                        }
-                    }.body(TypeInfo(BaseData::class))
+                baseData = client.get(
+                    Constants.MY_ANIME_LIST_BASE_URL + "anime", function(animeName)
+                ).body(TypeInfo(BaseData::class))
             }
         }
         return baseData
+    }
+
+    private fun function(animeName: String): HttpRequestBuilder.() -> Unit = {
+        parameter("q", URLEncoder.encode(animeName, "UTF-8"))
+        parameter("limit", 30)
+        headers {
+            append(Constants.MY_ANIME_LIST_HEADER_ID, token)
+        }
     }
 }

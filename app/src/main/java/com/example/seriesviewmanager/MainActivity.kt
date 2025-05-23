@@ -38,9 +38,7 @@ class MainActivity : AppCompatActivity() {
 
 
         send.setOnClickListener { view -> sendInfoToMyanimeList(escribir, textoMostrar) }
-
     }
-
 
     fun sendInfoToMyanimeList(editText: EditText, mostrar: TextView) {
         var animeName: String = editText.text.toString()
@@ -50,23 +48,22 @@ class MainActivity : AppCompatActivity() {
 
         val baseData: BaseData? = info.getRequest(animeName);
 
-        var info2 : Data? = baseData?.data?.
-            filter{it.node.title.contains(animeName,true)}?.
-            firstOrNull { it.node.title.equals(animeName,true) }
+        var info2: Data? = baseData?.data?.filter { it.node.title.contains(animeName, true) }
+            ?.firstOrNull { it.node.title.equals(animeName, true) }
 
         var data: List<Data>? = baseData?.data
 
-        if(info2!=null && data!= null){
+        if (info2 != null && data != null) {
             mostrar.text = "Nombre:${info2?.node?.title}"
             val url: String = info2.node.mainPicture.large.toString()
             Glide.with(this).load(url).into(image);
 
-            val customAdapter = CustomAdapter(data,applicationContext)
+            val customAdapter = CustomAdapter(data, applicationContext)
 
             val recyclerView: RecyclerView = findViewById(R.id.recicler)
             recyclerView.layoutManager = LinearLayoutManager(this)
             recyclerView.adapter = customAdapter
-        }else{
+        } else {
             mostrar.text = "El anime: ${info2?.node?.title} no se ha encontrado"
             image.setImageResource(R.drawable.element_not_found)
         }
