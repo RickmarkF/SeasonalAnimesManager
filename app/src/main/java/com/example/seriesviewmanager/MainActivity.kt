@@ -1,5 +1,6 @@
 package com.example.seriesviewmanager
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
+import com.example.seriesviewmanager.models.Data
 import com.example.seriesviewmanager.request.GetInformatioonFromMyAnimeList
 import com.example.seriesviewmanager.server.MyHTTPServer
 
@@ -36,19 +38,27 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+
     fun sendInfoToMyanimeList(editText: EditText, mostrar: TextView) {
         var animeName: String = editText.text.toString()
-        println(animeName)
+        val image: ImageView = findViewById(R.id.imageView3)
 
         val info = GetInformatioonFromMyAnimeList()
 
         val data = info.getRequest(animeName);
-        val node = data?.data?.get(0)?.node
 
-        mostrar.text = "Nombre:${node?.title}"
+        var info2 : Data? = data?.data?.
+            filter{it.node.title.contains(animeName,true)}?.
+            firstOrNull { it.node.title.equals(animeName,true) }
 
-        val url: String = node?.mainPicture?.large.toString()
-        val image: ImageView = findViewById(R.id.imageView3)
-        Glide.with(this).load(url).into(image);
+        if(info2!=null){
+            mostrar.text = "Nombre:${info2?.node?.title}"
+            val url: String = info2.node.mainPicture.large.toString()
+            Glide.with(this).load(url).into(image);
+        }else{
+            mostrar.text = "El anime: ${info2?.node?.title} no se ha encontrado"
+            image.setImageResource(R.drawable.element_not_found)
+        }
+
     }
 }

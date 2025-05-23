@@ -36,9 +36,9 @@ class GetInformatioonFromMyAnimeList {
                         )
                     }
                 }
-                baseData =
-                    client.get(Constants.MY_ANIME_LIST_BASE_URL + "anime") {
+                baseData = client.get(Constants.MY_ANIME_LIST_BASE_URL + "anime") {
                         parameter("q", URLEncoder.encode(animeName, "UTF-8"))
+                        parameter("limit",30)
                         headers {
                             append(Constants.MY_ANIME_LIST_HEADER_ID, token)
                         }
