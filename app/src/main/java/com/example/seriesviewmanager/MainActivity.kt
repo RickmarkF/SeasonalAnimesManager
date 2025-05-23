@@ -24,20 +24,20 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        MyHTTPServer(8080).also { it.start()}
+        MyHTTPServer(8080).also { it.start() }
 
 
-        val escribir : EditText = findViewById(R.id.searchAnimeEditText)
-        val textoMostrar:TextView = findViewById(R.id.searchAnimeSeeResult)
+        val escribir: EditText = findViewById(R.id.searchAnimeEditText)
+        val textoMostrar: TextView = findViewById(R.id.searchAnimeSeeResult)
         val send: Button = findViewById(R.id.searchAnimeSendRequest)
 
 
-        send.setOnClickListener{view-> sendInfoToMyanimeList(escribir,textoMostrar)}
+        send.setOnClickListener { view -> sendInfoToMyanimeList(escribir, textoMostrar) }
 
     }
 
-    fun sendInfoToMyanimeList (editText: EditText,mostrar: TextView)  {
-        var animeName : String = editText.text.toString()
+    fun sendInfoToMyanimeList(editText: EditText, mostrar: TextView) {
+        var animeName: String = editText.text.toString()
         println(animeName)
 
         val info = GetInformatioonFromMyAnimeList()
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 
         mostrar.text = "Nombre:${node?.title}"
 
-        val url:String = node?.mainPicture?.large.toString()
+        val url: String = node?.mainPicture?.large.toString()
         val image: ImageView = findViewById(R.id.imageView3)
         Glide.with(this).load(url).into(image);
     }
