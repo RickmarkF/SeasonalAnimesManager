@@ -39,11 +39,14 @@ android {
 dependencies {
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.cio)
-    implementation("org.nanohttpd:nanohttpd:2.3.0")
-    implementation("io.ktor:ktor-client-content-negotiation:3.1.1")
-    implementation("io.ktor:ktor-serialization-kotlinx-json:3.1.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
-    implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.serialization.kotlinx.json)
+
+    implementation(libs.nanohttpd)
+
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.glide)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

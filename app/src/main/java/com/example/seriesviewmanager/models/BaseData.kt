@@ -4,7 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class BaseData(
-    val data: List<Data>,
-    val paging: Paging
+    val data: List<Data>
 )
 
