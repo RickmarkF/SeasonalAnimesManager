@@ -26,7 +26,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main),this::prepareWindowInsets)
+        ViewCompat.setOnApplyWindowInsetsListener(
+            findViewById(R.id.main),
+            this::prepareWindowInsets
+        )
 
 
         MyHTTPServer(8080).also { it.start() }
@@ -39,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         send.setOnClickListener { view -> sendInfoToMyanimeList(escribir, textoMostrar) }
     }
 
-    fun prepareWindowInsets(v: View, insets: WindowInsetsCompat) : WindowInsetsCompat {
+    fun prepareWindowInsets(v: View, insets: WindowInsetsCompat): WindowInsetsCompat {
         val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
         v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
         return insets
@@ -55,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         val request = GetInformatioonFromMyAnimeList()
         var baseData: BaseData? = request.getRequest(animeName);
 
-        if(baseData != null){
+        if (baseData != null) {
 
             var animeList: List<Data> = baseData.data
             var animeInformation: Data? = animeList
@@ -85,7 +88,6 @@ class MainActivity : AppCompatActivity() {
 
             mostrar.text = textToShow
         }
-
 
 
     }

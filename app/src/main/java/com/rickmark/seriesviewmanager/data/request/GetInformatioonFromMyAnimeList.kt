@@ -1,7 +1,7 @@
 package com.rickmark.seriesviewmanager.data.request
 
-import com.rickmark.seriesviewmanager.domain.models.BaseData
 import com.rickmark.seriesviewmanager.domain.Constants
+import com.rickmark.seriesviewmanager.domain.models.BaseData
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.cio.CIO
@@ -24,7 +24,7 @@ class GetInformatioonFromMyAnimeList {
 
     fun getRequest(animeName: String): BaseData? {
         val url: String = Constants.MY_ANIME_LIST_BASE_URL + "anime"
-        val jsonBuilder : Json = Json(builderAction = getJsonBuilder())
+        val jsonBuilder: Json = Json(builderAction = getJsonBuilder())
         var baseData: BaseData? = null
 
         runBlocking {
@@ -34,7 +34,7 @@ class GetInformatioonFromMyAnimeList {
                     install(ContentNegotiation) { json(jsonBuilder) }
                 }
                 baseData = client
-                    .get(url,prepareRequest(animeName))
+                    .get(url, prepareRequest(animeName))
                     .body(TypeInfo(BaseData::class))
             }
         }
