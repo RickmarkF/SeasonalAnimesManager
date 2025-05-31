@@ -1,6 +1,8 @@
 package com.rickmark.seriesviewmanager.ui.main
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -13,6 +15,8 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.firestore
 import com.rickmark.seriesviewmanager.R
 import com.rickmark.seriesviewmanager.data.request.GetInformatioonFromMyAnimeList
 import com.rickmark.seriesviewmanager.data.server.MyHTTPServer
@@ -31,6 +35,25 @@ class MainActivity : AppCompatActivity() {
             this::prepareWindowInsets
         )
 
+        val db = Firebase.firestore
+
+        // Create a new user with a first and last name
+        val user = hashMapOf(
+            "first" to "Ada",
+            "last" to "Lovelace",
+            "born" to 1815
+        )
+
+
+// Add a new document with a generated ID
+        db.collection("users")
+            .add(user)
+            .addOnSuccessListener { documentReference ->
+                Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+            }
+            .addOnFailureListener { e ->
+                Log.w(TAG, "Error adding document", e)
+            }
 
         MyHTTPServer(8080).also { it.start() }
 
