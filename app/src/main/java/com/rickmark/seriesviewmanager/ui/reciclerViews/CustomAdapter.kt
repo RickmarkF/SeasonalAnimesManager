@@ -1,4 +1,4 @@
-package com.example.seriesviewmanager.adapters
+package com.rickmark.seriesviewmanager.ui.reciclerViews
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,8 +8,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.seriesviewmanager.R
-import com.example.seriesviewmanager.models.Data
+import com.rickmark.seriesviewmanager.R
+import com.rickmark.seriesviewmanager.domain.models.Data
 
 class CustomAdapter(private val dataSet: List<Data>, private val context: Context) :
     RecyclerView.Adapter<CustomAdapter.ViewHolder>() {

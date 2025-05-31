@@ -1,4 +1,4 @@
-package com.example.seriesviewmanager.server
+package com.rickmark.seriesviewmanager.data.server
 
 import fi.iki.elonen.NanoHTTPD.Response
 import fi.iki.elonen.NanoHTTPD.newFixedLengthResponse

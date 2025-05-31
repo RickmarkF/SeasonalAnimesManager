@@ -1,4 +1,4 @@
-package com.example.seriesviewmanager.models
+package com.rickmark.seriesviewmanager.domain.models
 
 import kotlinx.serialization.Serializable
 

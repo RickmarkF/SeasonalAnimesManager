@@ -1,4 +1,4 @@
-package com.example.seriesviewmanager
+package com.rickmark.seriesviewmanager
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

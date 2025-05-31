@@ -1,4 +1,4 @@
-package com.example.seriesviewmanager.utils
+package com.rickmark.seriesviewmanager.domain
 
 class Constants {
     companion object {
