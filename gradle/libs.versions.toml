@@ -13,6 +13,7 @@ ktor = "3.1.1"
 nanohttpd = "2.3.0"
 glide= "4.16.0"
 kotlinx-serialization-json = "1.6.0"
+googleGmsGoogleServices = "4.4.2"
 firebaseDatabase = "21.0.0"
 firebaseFirestore = "25.1.4"
 
@@ -43,4 +44,5 @@ firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
 

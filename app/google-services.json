@@ -1,14 +1,14 @@
 {
   "project_info": {
-    "project_number": "562397582582",
-    "firebase_url": "https://seriesviewmanager-default-rtdb.europe-west1.firebasedatabase.app",
-    "project_id": "seriesviewmanager",
-    "storage_bucket": "seriesviewmanager.firebasestorage.app"
+    "project_number": "944000804121",
+    "firebase_url": "https://seriesviewmanager-b0971-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "seriesviewmanager-b0971",
+    "storage_bucket": "seriesviewmanager-b0971.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:562397582582:android:e47646209a85a42af008d7",
+        "mobilesdk_app_id": "1:944000804121:android:a048700a1ba721bfcd9188",
         "android_client_info": {
           "package_name": "com.rickmark.seriesviewmanager"
         }
@@ -16,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyASO6_3-5boBY-GRETL291pcVRC17h7FRA"
+          "current_key": "AIzaSyD_hc7_ECsZl29nBKRDFEIH3USQhUKqNdw"
         }
       ],
       "services": {

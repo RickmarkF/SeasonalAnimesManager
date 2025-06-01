@@ -15,8 +15,9 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.firebase.Firebase
-import com.google.firebase.firestore.firestore
+import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.rickmark.seriesviewmanager.R
 import com.rickmark.seriesviewmanager.data.request.GetInformatioonFromMyAnimeList
 import com.rickmark.seriesviewmanager.data.server.MyHTTPServer
@@ -35,17 +36,20 @@ class MainActivity : AppCompatActivity() {
             this::prepareWindowInsets
         )
 
-        val db = Firebase.firestore
 
-        // Create a new user with a first and last name
+        val database = Firebase.database
+        val myRef = database.getReference("momo")
+
+        myRef.setValue("pepepe")
+
+
+        val db = Firebase.firestore
         val user = hashMapOf(
             "first" to "Ada",
             "last" to "Lovelace",
             "born" to 1815
         )
 
-
-// Add a new document with a generated ID
         db.collection("users")
             .add(user)
             .addOnSuccessListener { documentReference ->
@@ -54,7 +58,6 @@ class MainActivity : AppCompatActivity() {
             .addOnFailureListener { e ->
                 Log.w(TAG, "Error adding document", e)
             }
-
         MyHTTPServer(8080).also { it.start() }
 
         val escribir: EditText = findViewById(R.id.searchAnimeEditText)
