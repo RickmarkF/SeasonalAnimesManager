@@ -6,7 +6,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-interface ISendHttpRequest {
+interface IMyAnimeListRequestSender {
 
     fun sendInfoToMyanimeList(
         editText: EditText,

@@ -1,6 +1,5 @@
 package com.rickmark.seriesviewmanager.ui
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -13,9 +12,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.rickmark.seriesviewmanager.R
-import com.rickmark.seriesviewmanager.data.request.HttpRequestMyAnimeList
-import com.rickmark.seriesviewmanager.data.server.MyHTTPServer
-import com.rickmark.seriesviewmanager.domain.interfaces.ISendHttpRequest
+import com.rickmark.seriesviewmanager.data.request.HttpRequestSenderMyAnimeList
+import com.rickmark.seriesviewmanager.domain.interfaces.IMyAnimeListRequestSender
 
 class SearchAnimeActivity : AppCompatActivity() {
     val describe: EditText = findViewById(R.id.searchAnimeEditText)
@@ -39,7 +37,7 @@ class SearchAnimeActivity : AppCompatActivity() {
             this::prepareWindowInsets
         )
 
-        var request: ISendHttpRequest = HttpRequestMyAnimeList()
+        var request: IMyAnimeListRequestSender = HttpRequestSenderMyAnimeList()
 
         send.setOnClickListener { view ->
             request.sendInfoToMyanimeList(describe, textoMostrar, image, recyclerView, this)

@@ -1,6 +1,6 @@
 package com.rickmark.seriesviewmanager.domain.interfaces
 
-interface ISreriesManage {
+interface ISeriesManagement {
 
     fun searchAnime(animeName: String): Unit
     fun deleteAnime(animeName: String): Unit

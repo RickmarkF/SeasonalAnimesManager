@@ -3,9 +3,9 @@ package com.rickmark.seriesviewmanager.data.repositories
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.rickmark.seriesviewmanager.domain.interfaces.ISreriesManage
+import com.rickmark.seriesviewmanager.domain.interfaces.ISeriesManagement
 
-class ManageSeriesRepository : ISreriesManage {
+class ManageISeriesRepository : ISeriesManagement {
 
     val database: FirebaseDatabase = Firebase.database
 

@@ -8,13 +8,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.rickmark.seriesviewmanager.R
-import com.rickmark.seriesviewmanager.domain.interfaces.ISendHttpRequest
+import com.rickmark.seriesviewmanager.domain.interfaces.IMyAnimeListRequestSender
 import com.rickmark.seriesviewmanager.domain.models.BaseData
 import com.rickmark.seriesviewmanager.domain.models.Data
 import com.rickmark.seriesviewmanager.ui.reciclerViews.CustomAdapter
 import kotlinx.serialization.ExperimentalSerializationApi
 
-class HttpRequestMyAnimeList : ISendHttpRequest {
+class HttpRequestSenderMyAnimeList : IMyAnimeListRequestSender {
 
 
     @OptIn(ExperimentalSerializationApi::class)
