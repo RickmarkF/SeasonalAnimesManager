@@ -18,6 +18,12 @@ import com.rickmark.seriesviewmanager.domain.interfaces.ISendHttpRequest
 
 class MainActivity : AppCompatActivity() {
 
+    val escribir: EditText = findViewById(R.id.searchAnimeEditText)
+    val textoMostrar: TextView = findViewById(R.id.searchAnimeSeeResult)
+    val send: Button = findViewById(R.id.searchAnimeSendRequest)
+    val image: ImageView = findViewById(R.id.imageView3)
+    val recyclerView: RecyclerView = findViewById(R.id.recicler)
+
     fun prepareWindowInsets(v: View, insets: WindowInsetsCompat): WindowInsetsCompat {
         val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
         v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -34,14 +40,6 @@ class MainActivity : AppCompatActivity() {
         )
 
         MyHTTPServer(8080).also { it.start() }
-
-        val escribir: EditText = findViewById(R.id.searchAnimeEditText)
-        val textoMostrar: TextView = findViewById(R.id.searchAnimeSeeResult)
-        val send: Button = findViewById(R.id.searchAnimeSendRequest)
-        val image: ImageView = findViewById(R.id.imageView3)
-        val recyclerView: RecyclerView = findViewById(R.id.recicler)
-
-
         var request: ISendHttpRequest = HttpRequestMyAnimeList()
 
         send.setOnClickListener { view ->
