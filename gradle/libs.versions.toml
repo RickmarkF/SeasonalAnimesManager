@@ -5,7 +5,7 @@ coreKtx = "1.16.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
-appcompat = "1.7.0"
+appcompat = "1.7.1"
 material = "1.12.0"
 activity = "1.10.1"
 constraintlayout = "2.2.1"
@@ -15,7 +15,6 @@ glide= "4.16.0"
 kotlinx-serialization-json = "1.6.0"
 googleGmsGoogleServices = "4.4.2"
 firebaseDatabase = "21.0.0"
-firebaseFirestore = "25.1.4"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -38,8 +37,8 @@ ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serializatio
 
 glide= { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
+
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
-firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -1,8 +1,6 @@
 package com.rickmark.seriesviewmanager.ui.main
 
-import android.content.ContentValues.TAG
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -16,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.database.ktx.database
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.rickmark.seriesviewmanager.R
 import com.rickmark.seriesviewmanager.data.request.GetInformatioonFromMyAnimeList
@@ -24,6 +21,7 @@ import com.rickmark.seriesviewmanager.data.server.MyHTTPServer
 import com.rickmark.seriesviewmanager.domain.models.BaseData
 import com.rickmark.seriesviewmanager.domain.models.Data
 import com.rickmark.seriesviewmanager.ui.reciclerViews.CustomAdapter
+import kotlinx.serialization.ExperimentalSerializationApi
 
 class MainActivity : AppCompatActivity() {
 
@@ -42,22 +40,6 @@ class MainActivity : AppCompatActivity() {
 
         myRef.setValue("pepepe")
 
-
-        val db = Firebase.firestore
-        val user = hashMapOf(
-            "first" to "Ada",
-            "last" to "Lovelace",
-            "born" to 1815
-        )
-
-        db.collection("users")
-            .add(user)
-            .addOnSuccessListener { documentReference ->
-                Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-            }
-            .addOnFailureListener { e ->
-                Log.w(TAG, "Error adding document", e)
-            }
         MyHTTPServer(8080).also { it.start() }
 
         val escribir: EditText = findViewById(R.id.searchAnimeEditText)
@@ -74,6 +56,7 @@ class MainActivity : AppCompatActivity() {
         return insets
     }
 
+    @OptIn(ExperimentalSerializationApi::class)
     fun sendInfoToMyanimeList(editText: EditText, mostrar: TextView) {
         var animeName: String = editText.text.toString()
 
