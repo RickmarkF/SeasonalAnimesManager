@@ -1,5 +1,6 @@
-package com.rickmark.seriesviewmanager.ui.main
+package com.rickmark.seriesviewmanager.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -16,7 +17,12 @@ import com.rickmark.seriesviewmanager.data.request.HttpRequestMyAnimeList
 import com.rickmark.seriesviewmanager.data.server.MyHTTPServer
 import com.rickmark.seriesviewmanager.domain.interfaces.ISendHttpRequest
 
-class MainActivity : AppCompatActivity() {
+class SearchAnimeActivity : AppCompatActivity() {
+    val describe: EditText = findViewById(R.id.searchAnimeEditText)
+    val textoMostrar: TextView = findViewById(R.id.searchAnimeSeeResult)
+    val send: Button = findViewById(R.id.searchAnimeSendRequest)
+    val image: ImageView = findViewById(R.id.imageView3)
+    val recyclerView: RecyclerView = findViewById(R.id.recicler)
 
     fun prepareWindowInsets(v: View, insets: WindowInsetsCompat): WindowInsetsCompat {
         val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -27,13 +33,17 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.search_anime)
         ViewCompat.setOnApplyWindowInsetsListener(
-            findViewById(R.id.main),
+            findViewById(R.id.main_search),
             this::prepareWindowInsets
         )
 
-        MyHTTPServer(8080).also { it.start() }
+        var request: ISendHttpRequest = HttpRequestMyAnimeList()
+
+        send.setOnClickListener { view ->
+            request.sendInfoToMyanimeList(describe, textoMostrar, image, recyclerView, this)
+        }
     }
 
 }
