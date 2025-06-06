@@ -1,6 +1,7 @@
 [versions]
 agp = "8.9.3"
 kotlin = "2.1.10"
+kotlin-seralization = "1.8.20"
 coreKtx = "1.16.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -14,7 +15,10 @@ nanohttpd = "2.3.0"
 glide= "4.16.0"
 kotlinx-serialization-json = "1.6.0"
 googleGmsGoogleServices = "4.4.2"
-firebaseDatabase = "21.0.0"
+firebase-Database = "21.0.0"
+firebase-analytics = "22.4.0"
+firebase-bom = "33.15.0"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -38,10 +42,13 @@ ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serializatio
 glide= { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
 
-firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
+firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebase-Database" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics", version.ref = "firebase-analytics" }
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-plugin-seralization = {id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin-seralization"}
 google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
 

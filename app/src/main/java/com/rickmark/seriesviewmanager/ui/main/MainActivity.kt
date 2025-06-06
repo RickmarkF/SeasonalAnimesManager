@@ -10,20 +10,19 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import com.rickmark.seriesviewmanager.R
-import com.rickmark.seriesviewmanager.data.request.GetInformatioonFromMyAnimeList
+import com.rickmark.seriesviewmanager.data.request.HttpRequestMyAnimeList
 import com.rickmark.seriesviewmanager.data.server.MyHTTPServer
-import com.rickmark.seriesviewmanager.domain.models.BaseData
-import com.rickmark.seriesviewmanager.domain.models.Data
-import com.rickmark.seriesviewmanager.ui.reciclerViews.CustomAdapter
-import kotlinx.serialization.ExperimentalSerializationApi
+import com.rickmark.seriesviewmanager.domain.interfaces.ISendHttpRequest
 
 class MainActivity : AppCompatActivity() {
+
+    fun prepareWindowInsets(v: View, insets: WindowInsetsCompat): WindowInsetsCompat {
+        val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+        v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+        return insets
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,70 +33,20 @@ class MainActivity : AppCompatActivity() {
             this::prepareWindowInsets
         )
 
-
-        val database = Firebase.database
-        val myRef = database.getReference("momo")
-
-        myRef.setValue("pepepe")
-
         MyHTTPServer(8080).also { it.start() }
 
         val escribir: EditText = findViewById(R.id.searchAnimeEditText)
         val textoMostrar: TextView = findViewById(R.id.searchAnimeSeeResult)
         val send: Button = findViewById(R.id.searchAnimeSendRequest)
-
-
-        send.setOnClickListener { view -> sendInfoToMyanimeList(escribir, textoMostrar) }
-    }
-
-    fun prepareWindowInsets(v: View, insets: WindowInsetsCompat): WindowInsetsCompat {
-        val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-        v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-        return insets
-    }
-
-    @OptIn(ExperimentalSerializationApi::class)
-    fun sendInfoToMyanimeList(editText: EditText, mostrar: TextView) {
-        var animeName: String = editText.text.toString()
-
-
         val image: ImageView = findViewById(R.id.imageView3)
         val recyclerView: RecyclerView = findViewById(R.id.recicler)
 
-        val request = GetInformatioonFromMyAnimeList()
-        var baseData: BaseData? = request.getRequest(animeName);
 
-        if (baseData != null) {
+        var request: ISendHttpRequest = HttpRequestMyAnimeList()
 
-            var animeList: List<Data> = baseData.data
-            var animeInformation: Data? = animeList
-                .filter { it.node.title.contains(animeName, true) }
-                .firstOrNull { it.node.title.equals(animeName, true) }
-
-            var textToShow: String
-
-            if (animeInformation != null) {
-                textToShow = "Nombre:${animeInformation.node.title}"
-
-
-                val url: String = animeInformation.node.mainPicture.large.toString()
-                Glide.with(this).load(url).into(image);
-
-                val customAdapter = CustomAdapter(animeList, applicationContext)
-
-                recyclerView.also {
-                    it.layoutManager = LinearLayoutManager(this)
-                    it.adapter = customAdapter
-                }
-
-            } else {
-                textToShow = "El anime $animeName no se ha encontrado"
-                image.setImageResource(R.drawable.element_not_found)
-            }
-
-            mostrar.text = textToShow
+        send.setOnClickListener { view ->
+            request.sendInfoToMyanimeList(escribir, textoMostrar, image, recyclerView, this)
         }
-
-
     }
+
 }
