@@ -6,7 +6,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-interface IMyAnimeListRequestSender {
+interface IAnimeManager {
 
     fun sendInfoToMyanimeList(
         editText: EditText,

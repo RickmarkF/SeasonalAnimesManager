@@ -18,7 +18,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonBuilder
 import java.net.URLEncoder
 
-class GetInformatioonFromMyAnimeList {
+class RequestManager {
 
     private val token: String = "ad1162093716f04f8cba96898a43d093";
 

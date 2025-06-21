@@ -1,9 +1,13 @@
-package com.rickmark.seriesviewmanager.ui.main
+package com.rickmark.seriesviewmanager.ui
 
-import android.content.ContentValues.TAG
+import android.content.ActivityNotFoundException
+import android.content.ContentValues
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -15,9 +19,13 @@ import com.google.firebase.ktx.Firebase
 import com.rickmark.seriesviewmanager.R
 import com.rickmark.seriesviewmanager.data.server.MyHTTPServer
 
-class MainActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
 
-    private lateinit var auth: FirebaseAuth
+    private lateinit var editTextEmailAddress: EditText
+    private lateinit var editTextPassword: EditText
+    private lateinit var buttonLogin: Button
+
+    private var auth: FirebaseAuth = Firebase.auth
 
     fun prepareWindowInsets(v: View, insets: WindowInsetsCompat): WindowInsetsCompat {
         val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -25,17 +33,34 @@ class MainActivity : AppCompatActivity() {
         return insets
     }
 
-    override fun onStart() {
+    public override fun onStart() {
         super.onStart()
-        println("onStart")
+        // Check if user is signed in (non-null) and update UI accordingly.
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            // Create the text message with a string.
+            val sendIntent = Intent(this, SearchAnimeActivity::class.java)
+            try {
+                startActivity(sendIntent)
+            } catch (e: ActivityNotFoundException) {
+                // Define what your app should do if no activity can handle the intent.
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.login)
+
+
+        editTextEmailAddress = findViewById(R.id.editTextEmailAddress)
+        editTextPassword = findViewById(R.id.editTextPassword)
+        buttonLogin = findViewById(R.id.buttonLogin)
+
+
         ViewCompat.setOnApplyWindowInsetsListener(
-            findViewById(R.id.main),
+            findViewById(R.id.login),
             this::prepareWindowInsets
         )
 
@@ -43,12 +68,10 @@ class MainActivity : AppCompatActivity() {
         auth.createUserWithEmailAndPassword("usuario@ejemplo.com", "12345678")
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d(TAG, "createUserWithEmail:success")
+                    Log.d(ContentValues.TAG, "createUserWithEmail:success")
                     val user = auth.currentUser
                 } else {
-                    // If sign in fails, display a message to the user.
-                    Log.w(TAG, "createUserWithEmail:failure", task.exception)
+                    Log.w(ContentValues.TAG, "createUserWithEmail:failure", task.exception)
                     Toast.makeText(
                         baseContext,
                         "Authentication failed.",
@@ -56,7 +79,7 @@ class MainActivity : AppCompatActivity() {
                     ).show()
                 }
             }
+
         MyHTTPServer(8080).also { it.start() }
     }
-
 }
