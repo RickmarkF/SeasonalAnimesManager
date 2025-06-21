@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.rickmark.seriesviewmanager.R
 import com.rickmark.seriesviewmanager.domain.models.Data
+import kotlinx.serialization.ExperimentalSerializationApi
 
 class CustomAdapter(private val dataSet: List<Data>, private val context: Context) :
     RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
@@ -25,6 +26,7 @@ class CustomAdapter(private val dataSet: List<Data>, private val context: Contex
         val textView: TextView = view.findViewById(R.id.nombre)
     }
 
+    @OptIn(ExperimentalSerializationApi::class)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.textView.text = dataSet[position].node.title
         Glide.with(context).load(dataSet[position].node.mainPicture.large).into(holder.imageView);
