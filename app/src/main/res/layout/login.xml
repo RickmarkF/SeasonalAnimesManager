@@ -16,7 +16,7 @@
         android:layout_marginEnd="26dp"
         android:layout_marginBottom="127dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/buttonLogin"
+        app:layout_constraintBottom_toTopOf="@+id/createAccount"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,12 +48,24 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/buttonLogin"
+        android:id="@+id/createAccount"
         android:layout_width="192dp"
         android:layout_height="61dp"
         android:layout_marginStart="99dp"
         android:layout_marginEnd="120dp"
-        android:layout_marginBottom="310dp"
+        android:layout_marginBottom="41dp"
+        android:text="Create Account"
+        app:layout_constraintBottom_toTopOf="@+id/loginButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="177dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="99dp"
+        android:layout_marginEnd="135dp"
+        android:layout_marginBottom="213dp"
         android:text="Login"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
