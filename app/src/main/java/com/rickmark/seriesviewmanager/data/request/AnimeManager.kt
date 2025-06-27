@@ -43,7 +43,7 @@ class AnimeManager : IAnimeManager {
                 textToShow = "Nombre:${animeInformation.node.title}"
 
 
-                val url: String = animeInformation.node.mainPicture.large.toString()
+                val url: String = animeInformation.node.mainPicture?.large.toString()
                 Glide.with(context).load(url).into(image);
 
                 val customAdapter = CustomAdapter(animeList, context)

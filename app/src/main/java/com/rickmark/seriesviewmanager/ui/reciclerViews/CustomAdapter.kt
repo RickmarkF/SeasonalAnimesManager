@@ -29,7 +29,11 @@ class CustomAdapter(private val dataSet: List<Data>, private val context: Contex
     @OptIn(ExperimentalSerializationApi::class)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.textView.text = dataSet[position].node.title
-        Glide.with(context).load(dataSet[position].node.mainPicture.large).into(holder.imageView);
+        val image : String? = dataSet[position].node.mainPicture?.large.toString()
+
+        if(!image.isNullOrEmpty()){
+            Glide.with(context).load(image).into(holder.imageView);
+        }
     }
 
     override fun getItemCount() = dataSet.size
