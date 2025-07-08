@@ -8,13 +8,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.rickmark.seriesviewmanager.R
-import com.rickmark.seriesviewmanager.domain.interfaces.IMyAnimeListRequestSender
+import com.rickmark.seriesviewmanager.domain.interfaces.IAnimeManager
 import com.rickmark.seriesviewmanager.domain.models.BaseData
 import com.rickmark.seriesviewmanager.domain.models.Data
 import com.rickmark.seriesviewmanager.ui.reciclerViews.CustomAdapter
 import kotlinx.serialization.ExperimentalSerializationApi
 
-class HttpRequestSenderMyAnimeList : IMyAnimeListRequestSender {
+class AnimeManager : IAnimeManager {
 
 
     @OptIn(ExperimentalSerializationApi::class)
@@ -27,7 +27,7 @@ class HttpRequestSenderMyAnimeList : IMyAnimeListRequestSender {
     ): Unit {
         var animeName: String = editText.text.toString()
 
-        val request = GetInformatioonFromMyAnimeList()
+        val request = RequestManager()
         var baseData: BaseData? = request.getRequest(animeName);
 
         if (baseData != null) {
@@ -43,7 +43,7 @@ class HttpRequestSenderMyAnimeList : IMyAnimeListRequestSender {
                 textToShow = "Nombre:${animeInformation.node.title}"
 
 
-                val url: String = animeInformation.node.mainPicture.large.toString()
+                val url: String = animeInformation.node.mainPicture?.large.toString()
                 Glide.with(context).load(url).into(image);
 
                 val customAdapter = CustomAdapter(animeList, context)

@@ -1,5 +1,6 @@
 package com.rickmark.seriesviewmanager.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -11,16 +12,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.rickmark.seriesviewmanager.R
-import com.rickmark.seriesviewmanager.data.request.HttpRequestSenderMyAnimeList
-import com.rickmark.seriesviewmanager.domain.interfaces.IMyAnimeListRequestSender
+import com.rickmark.seriesviewmanager.data.request.AnimeManager
+import com.rickmark.seriesviewmanager.domain.interfaces.IAnimeManager
 
 class SearchAnimeActivity : AppCompatActivity() {
-    val describe: EditText = findViewById(R.id.searchAnimeEditText)
-    val textoMostrar: TextView = findViewById(R.id.searchAnimeSeeResult)
-    val send: Button = findViewById(R.id.searchAnimeSendRequest)
-    val image: ImageView = findViewById(R.id.imageView3)
-    val recyclerView: RecyclerView = findViewById(R.id.recicler)
+
+    private lateinit var describe: EditText
+    private lateinit var textoMostrar: TextView
+    private lateinit var send: Button
+    private lateinit var logout: Button
+    private lateinit var image: ImageView
+    private lateinit var recyclerView: RecyclerView
 
     fun prepareWindowInsets(v: View, insets: WindowInsetsCompat): WindowInsetsCompat {
         val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -32,16 +36,31 @@ class SearchAnimeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.search_anime)
+
+        // Inicializar vistas después de setContentView
+        describe = findViewById(R.id.searchAnimeEditText)
+        textoMostrar = findViewById(R.id.searchAnimeSeeResult)
+        send = findViewById(R.id.searchAnimeSendRequest)
+        image = findViewById(R.id.imageView3)
+        recyclerView = findViewById(R.id.recicler)
+        logout = findViewById(R.id.logoutButton)
+
         ViewCompat.setOnApplyWindowInsetsListener(
             findViewById(R.id.main_search),
             this::prepareWindowInsets
         )
 
-        var request: IMyAnimeListRequestSender = HttpRequestSenderMyAnimeList()
+        val request: IAnimeManager = AnimeManager()
 
-        send.setOnClickListener { view ->
+        send.setOnClickListener {
             request.sendInfoToMyanimeList(describe, textoMostrar, image, recyclerView, this)
         }
-    }
 
+        logout.setOnClickListener {
+            val sendIntent = Intent(this, LoginActivity::class.java)
+            FirebaseAuth.getInstance().signOut()
+            startActivity(sendIntent)
+            finish()
+        }
+    }
 }

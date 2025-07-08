@@ -18,7 +18,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonBuilder
 import java.net.URLEncoder
 
-class GetInformatioonFromMyAnimeList {
+class RequestManager {
 
     private val token: String = "ad1162093716f04f8cba96898a43d093";
 
@@ -33,8 +33,9 @@ class GetInformatioonFromMyAnimeList {
                     expectSuccess = true
                     install(ContentNegotiation) { json(jsonBuilder) }
                 }
+                val request = prepareRequest(animeName)
                 baseData = client
-                    .get(url, prepareRequest(animeName))
+                    .get(url, request)
                     .body(TypeInfo(BaseData::class))
             }
         }
@@ -47,7 +48,7 @@ class GetInformatioonFromMyAnimeList {
     }
 
     private fun prepareRequest(animeName: String): HttpRequestBuilder.() -> Unit = {
-        parameter("q", URLEncoder.encode(animeName, "UTF-8"))
+        parameter("q", animeName)
         parameter("limit", 30)
         headers {
             append(Constants.MY_ANIME_LIST_HEADER_ID, token)

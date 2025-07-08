@@ -8,6 +8,6 @@ import kotlinx.serialization.json.JsonNames
 data class Node constructor(
     val id: Int,
     val title: String,
-    @JsonNames("main_picture") val mainPicture: MainPicture
+    @JsonNames("main_picture") val mainPicture: MainPicture? = null
 )
 
