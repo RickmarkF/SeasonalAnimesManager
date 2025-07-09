@@ -15,6 +15,7 @@ import com.google.firebase.ktx.Firebase
 import com.rickmark.seriesviewmanager.R
 import com.rickmark.seriesviewmanager.data.authentication.UserAuthentication
 import com.rickmark.seriesviewmanager.domain.interfaces.IUserAuthenticator
+import com.rickmark.seriesviewmanager.ui.seasonalAnime.ViewSeasonalAnimeActivity
 
 class LoginActivity : AppCompatActivity() {
 
@@ -38,7 +39,7 @@ class LoginActivity : AppCompatActivity() {
         //MyHTTPServer(8080).also { it.start() }
         val currentUser = auth.currentUser
         if (currentUser != null) {
-            val sendIntent = Intent(this, SearchAnimeActivity::class.java)
+            val sendIntent = Intent(this, ViewSeasonalAnimeActivity::class.java)
             startActivity(sendIntent)
             finish()
         }
