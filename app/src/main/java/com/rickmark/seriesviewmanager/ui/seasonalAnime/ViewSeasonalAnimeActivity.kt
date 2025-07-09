@@ -1,27 +1,21 @@
 package com.rickmark.seriesviewmanager.ui.seasonalAnime
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.fragment.app.add
+import androidx.fragment.app.commit
 import com.rickmark.seriesviewmanager.R
-import com.rickmark.seriesviewmanager.databinding.ActivityViewSeasonalAnimeBinding
 
-class ViewSeasonalAnimeActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityViewSeasonalAnimeBinding
+class ViewSeasonalAnimeActivity : AppCompatActivity(R.layout.activity_view_seasonal_anime) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.search_anime)
-
-        binding = ActivityViewSeasonalAnimeBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
+        if (savedInstanceState == null) {
+            supportFragmentManager.commit {
+                setReorderingAllowed(true)
+                add<NavigationSeasonalAnime>(R.id.fragment_container_view)
+            }
+        }
     }
 
 }
