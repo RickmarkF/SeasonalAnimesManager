@@ -35,7 +35,7 @@ class LoginActivity : AppCompatActivity() {
 
     public override fun onStart() {
         super.onStart()
-        userAuthenticator = UserAuthentication(auth,this)
+        userAuthenticator = UserAuthentication(auth, this)
         //MyHTTPServer(8080).also { it.start() }
         val currentUser = auth.currentUser
         if (currentUser != null) {
@@ -66,7 +66,7 @@ class LoginActivity : AppCompatActivity() {
         buttonLogin.setOnClickListener(this::login)
     }
 
-    private fun register(view: View) : Unit {
+    private fun register(view: View): Unit {
 
         val email: String = editTextEmailAddress.text.toString()
         val password: String = editTextPassword.text.toString()
@@ -74,7 +74,7 @@ class LoginActivity : AppCompatActivity() {
         userAuthenticator.createUser(email, password)
     }
 
-    private fun login(view: View) : Unit {
+    private fun login(view: View): Unit {
 
         val email: String = editTextEmailAddress.text.toString()
         val password: String = editTextPassword.text.toString()

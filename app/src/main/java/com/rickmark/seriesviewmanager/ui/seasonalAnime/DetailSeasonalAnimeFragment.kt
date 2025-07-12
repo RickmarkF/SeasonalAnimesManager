@@ -9,21 +9,14 @@ import com.rickmark.seriesviewmanager.R
 
 class DetailSeasonalAnimeFragment : Fragment(R.layout.fragment_detail_seasonal_anime) {
 
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val button = view.findViewById<Button>(R.id.button2)
         button.setOnClickListener {
             val navHostFragment = findNavController()
-            navHostFragment.navigateUp()
+            navHostFragment.popBackStack()
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        val navHostFragment = findNavController()
-        navHostFragment.navigateUp()
-    }
 }

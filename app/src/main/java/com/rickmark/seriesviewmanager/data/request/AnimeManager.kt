@@ -64,6 +64,6 @@ class AnimeManager : IAnimeManager {
     }
 
     override fun getSeasonalAnime() {
-        request.getSeasonalAnime(season = "winter", year =  "2017")
+        request.getSeasonalAnime(season = "winter", year = "2017")
     }
 }
