@@ -2,11 +2,8 @@ package com.rickmark.seriesviewmanager.ui.seasonalAnime
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.add
-import androidx.fragment.app.commit
 import androidx.navigation.createGraph
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.fragment
 import com.rickmark.seriesviewmanager.R
 import com.rickmark.seriesviewmanager.data.request.AnimeManager
@@ -16,12 +13,13 @@ class ViewSeasonalAnimeActivity : AppCompatActivity(R.layout.activity_view_seaso
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (savedInstanceState == null) {
-            supportFragmentManager.commit {
-                setReorderingAllowed(true)
-                add<ShowSeasonalAnimesFragment>(R.id.fragment_container_view)
-            }
-
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
+        val navController = navHostFragment.navController
+        navController.graph = navController.createGraph(
+            startDestination = "view_seasonal_anime",
+        ) {
+            fragment<ShowSeasonalAnimesFragment>("view_seasonal_anime")
+            fragment<DetailSeasonalAnimeFragment>("v")
         }
 
         var manager: IAnimeManager = AnimeManager()
