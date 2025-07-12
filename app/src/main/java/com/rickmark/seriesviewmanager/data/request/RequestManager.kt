@@ -11,6 +11,7 @@ import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.get
 import io.ktor.client.request.headers
 import io.ktor.client.request.parameter
+import io.ktor.client.statement.HttpResponse
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.util.reflect.TypeInfo
 import kotlinx.coroutines.launch
@@ -22,7 +23,7 @@ class RequestManager {
 
     private val token: String = "ad1162093716f04f8cba96898a43d093";
 
-    fun getRequest(animeName: String): BaseData? {
+    fun getAnimeRequest(animeName: String): BaseData? {
         val url: String = HttpEndpoints.MY_ANIME_LIST_BASE_URL + "anime"
         val jsonBuilder: Json = Json(builderAction = getJsonBuilder())
         var baseData: BaseData? = null
@@ -42,6 +43,26 @@ class RequestManager {
         return baseData
     }
 
+    fun getSeasonalAnime(season: String, year: String): Unit {
+        val url: String = HttpEndpoints.MY_ANIME_LIST_BASE_URL + "anime/season/${year}/${season}"
+        val jsonBuilder: Json = Json(builderAction = getJsonBuilder())
+        var baseData: BaseData? = null
+        runBlocking {
+            launch {
+                val client = HttpClient(CIO) {
+                    expectSuccess = true
+                    install(ContentNegotiation) { json(jsonBuilder) }
+                }
+
+                val request = prepareRequest2()
+
+                baseData = client.get(url, request).body()
+            }
+
+        }
+
+    }
+
     private fun getJsonBuilder(): JsonBuilder.() -> Unit = {
         ignoreUnknownKeys = true
         prettyPrint = true
@@ -54,5 +75,13 @@ class RequestManager {
             append(HttpProperties.MY_ANIME_LIST_HEADER_ID, token)
         }
     }
+
+    private fun prepareRequest2(): HttpRequestBuilder.() -> Unit = {
+        parameter("limit", 30)
+        headers {
+            append(HttpProperties.MY_ANIME_LIST_HEADER_ID, token)
+        }
+    }
+
 }
 

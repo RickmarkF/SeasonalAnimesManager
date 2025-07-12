@@ -8,11 +8,14 @@ import androidx.recyclerview.widget.RecyclerView
 
 interface IAnimeManager {
 
-    fun sendInfoToMyanimeList(
+    fun getAnimeFromMyanimeList(
         editText: EditText,
         mostrar: TextView,
         image: ImageView,
         recyclerView: RecyclerView,
         context: Context
+    ): Unit
+
+    fun getSeasonalAnime(
     ): Unit
 }

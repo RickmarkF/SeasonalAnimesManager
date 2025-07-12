@@ -44,12 +44,9 @@ dependencies {
 
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
-    val fragment_version = "1.8.8"
-
-    // Java language implementation
-    implementation("androidx.fragment:fragment:$fragment_version")
-    // Kotlin
-    implementation("androidx.fragment:fragment-ktx:$fragment_version")
+    implementation(libs.androidx.navigation.dynamic.features.fragment)
+    implementation(libs.androidx.fragment)
+    implementation(libs.androidx.fragment.ktx)
 
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.cio)

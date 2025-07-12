@@ -16,9 +16,10 @@ import kotlinx.serialization.ExperimentalSerializationApi
 
 class AnimeManager : IAnimeManager {
 
+    private var request = RequestManager()
 
     @OptIn(ExperimentalSerializationApi::class)
-    override fun sendInfoToMyanimeList(
+    override fun getAnimeFromMyanimeList(
         editText: EditText,
         mostrar: TextView,
         image: ImageView,
@@ -26,9 +27,7 @@ class AnimeManager : IAnimeManager {
         context: Context
     ): Unit {
         var animeName: String = editText.text.toString()
-
-        val request = RequestManager()
-        var baseData: BaseData? = request.getRequest(animeName);
+        var baseData: BaseData? = request.getAnimeRequest(animeName);
 
         if (baseData != null) {
 
@@ -62,5 +61,9 @@ class AnimeManager : IAnimeManager {
         }
 
 
+    }
+
+    override fun getSeasonalAnime() {
+        request.getSeasonalAnime(season = "winter", year =  "2017")
     }
 }
