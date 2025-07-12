@@ -18,7 +18,9 @@ class ViewSeasonalAnimeActivity : AppCompatActivity(R.layout.activity_view_seaso
         navController.graph = navController.createGraph(
             startDestination = "view_seasonal_anime",
         ) {
-            fragment<ShowSeasonalAnimesFragment>("view_seasonal_anime")
+            fragment<ShowSeasonalAnimesFragment>("view_seasonal_anime"){
+
+            }
             fragment<DetailSeasonalAnimeFragment>("v")
         }
 
