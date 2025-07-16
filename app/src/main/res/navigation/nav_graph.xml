@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.rickmark.seriesviewmanager.ui.seasonalAnime.FirstFragment"
+        android:name="com.rickmark.seriesviewmanager.ui.seasonalAnime.ShowSeasonalAnimesFragment"
         android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        tools:layout="@layout/fragment_show_seasonal_animes">
 
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
@@ -17,9 +17,9 @@
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="com.rickmark.seriesviewmanager.ui.seasonalAnime.SecondFragment"
+        android:name="com.rickmark.seriesviewmanager.ui.seasonalAnime.DetailSeasonalAnimeFragment"
         android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        tools:layout="@layout/fragment_detail_seasonal_anime">
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"

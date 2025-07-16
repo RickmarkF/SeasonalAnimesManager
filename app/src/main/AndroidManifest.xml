@@ -18,7 +18,7 @@
         <activity
             android:name=".ui.seasonalAnime.ViewSeasonalAnimeActivity"
             android:exported="false"
-            android:theme="@style/Theme.SeriesViewManager" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".ui.SearchAnimeActivity"
             android:exported="false" />
