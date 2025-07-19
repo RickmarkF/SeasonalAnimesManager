@@ -23,6 +23,7 @@ firebase-auth = "23.2.1"
 navigationDynamicFeaturesFragment = "2.9.1"
 navigationFragmentKtx = "2.9.1"
 navigationUiKtx = "2.9.1"
+recyclerview = "1.4.0"
 
 
 [libraries]
@@ -57,6 +58,7 @@ firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version
 
 androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
 androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
+androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

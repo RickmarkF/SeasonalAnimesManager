@@ -4,7 +4,7 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Data @OptIn(ExperimentalSerializationApi::class) constructor(
+data class Data (
     val node: Node
 )
 

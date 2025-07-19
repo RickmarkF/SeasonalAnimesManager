@@ -13,6 +13,9 @@ class DetailSeasonalAnimeFragment : Fragment(R.layout.fragment_detail_seasonal_a
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // 1. Obtener el argumento de la ruta
+        val encodedData = arguments?.getInt("anime_id")
+        val nav = findNavController()
 
 
     }

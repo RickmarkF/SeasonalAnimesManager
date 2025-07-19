@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fitsSystemWindows="true"
+    android:layout_width="150dp"
+    android:layout_height="220dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/animeName"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="@string/app_name" />
+
+    <ImageButton
+        android:id="@+id/animeImage"
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:contentDescription="@string/anime_de_la_temporada_imagen" />
+
+</LinearLayout>

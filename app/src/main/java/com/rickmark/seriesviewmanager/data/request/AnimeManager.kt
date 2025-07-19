@@ -63,7 +63,8 @@ class AnimeManager : IAnimeManager {
 
     }
 
-    override fun getSeasonalAnime() {
-        request.getSeasonalAnime(season = "winter", year = "2017")
+    override fun getSeasonalAnime(): BaseData? {
+      var data : BaseData? = request.getSeasonalAnime(season = "winter", year = "2017")
+        return data
     }
 }

@@ -5,6 +5,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.navigation.NavType
 import androidx.navigation.createGraph
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.fragment
@@ -26,8 +27,11 @@ class ViewSeasonalAnimeActivity : AppCompatActivity(R.layout.activity_view_seaso
             fragment<ShowSeasonalAnimesFragment>(NavegationRutes.FRAGMENT_SEASONAL_ANIMES){
                 label = "Animes de la temporada"
             }
-            fragment<DetailSeasonalAnimeFragment>(NavegationRutes.FRAGMENT_ANIME_DETAIL){
+            fragment<DetailSeasonalAnimeFragment>("${NavegationRutes.FRAGMENT_ANIME_DETAIL}/{anime_id}"){
                 label = "Detalles del anime"
+                argument("anime_id"){
+                    type = NavType.IntType
+                }
             }
         }
 

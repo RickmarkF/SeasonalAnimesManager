@@ -42,7 +42,7 @@ class RequestManager {
         return baseData
     }
 
-    fun getSeasonalAnime(season: String, year: String): Unit {
+    fun getSeasonalAnime(season: String, year: String): BaseData? {
         val url: String = HttpEndpoints.MY_ANIME_LIST_BASE_URL + "anime/season/${year}/${season}"
         val jsonBuilder: Json = Json(builderAction = getJsonBuilder())
         var baseData: BaseData? = null
@@ -60,6 +60,7 @@ class RequestManager {
 
         }
 
+        return baseData
     }
 
     private fun getJsonBuilder(): JsonBuilder.() -> Unit = {
