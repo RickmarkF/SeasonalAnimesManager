@@ -9,7 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.rickmark.seriesviewmanager.R
 import com.rickmark.seriesviewmanager.domain.interfaces.IAnimeManager
-import com.rickmark.seriesviewmanager.domain.models.BaseData
+import com.rickmark.seriesviewmanager.domain.models.AnimeDetails
+import com.rickmark.seriesviewmanager.domain.models.AnimeListData
 import com.rickmark.seriesviewmanager.domain.models.Data
 import com.rickmark.seriesviewmanager.ui.reciclerViews.CustomAdapter
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -27,11 +28,11 @@ class AnimeManager : IAnimeManager {
         context: Context
     ): Unit {
         var animeName: String = editText.text.toString()
-        var baseData: BaseData? = request.getAnimeRequest(animeName);
+        var animeListData: AnimeListData? = request.getAnime(animeName);
 
-        if (baseData != null) {
+        if (animeListData != null) {
 
-            var animeList: List<Data> = baseData.data
+            var animeList: List<Data> = animeListData.data
             var animeInformation: Data? = animeList
                 .filter { it.node.title.contains(animeName, true) }
                 .firstOrNull { it.node.title.equals(animeName, true) }
@@ -63,8 +64,11 @@ class AnimeManager : IAnimeManager {
 
     }
 
-    override fun getSeasonalAnime(): BaseData? {
-      var data : BaseData? = request.getSeasonalAnime(season = "winter", year = "2017")
-        return data
+    override fun getSeasonalAnime(): List<Data>? {
+        return request.getSeasonalAnime(season = "winter", year = "2017")
+    }
+
+    override fun getAnimeDetails(id: Int?): AnimeDetails? {
+        return request.getAnimeDetails(id)
     }
 }

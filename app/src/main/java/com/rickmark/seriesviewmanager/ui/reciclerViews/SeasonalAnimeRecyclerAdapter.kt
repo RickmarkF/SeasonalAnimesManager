@@ -1,25 +1,19 @@
 package com.rickmark.seriesviewmanager.ui.reciclerViews
 
 import android.content.Context
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.rickmark.seriesviewmanager.R
 import com.rickmark.seriesviewmanager.domain.constants.NavegationRutes
 import com.rickmark.seriesviewmanager.domain.models.Data
-import kotlinx.serialization.json.Json
-import java.net.URLEncoder
 
-class SeasonalAnimeRecyclerAdapter(private val dataSet: List<Data>,private val context: Context):
+class SeasonalAnimeRecyclerAdapter(private val dataSet: List<Data>, private val context: Context) :
     RecyclerView.Adapter<SeasonalAnimeRecyclerAdapter.ViewHolder>() {
 
     /**
@@ -36,7 +30,7 @@ class SeasonalAnimeRecyclerAdapter(private val dataSet: List<Data>,private val c
         init {
             imagen.setOnClickListener {
                 val navHostFragment = view.findNavController()
-               navHostFragment.navigate("${NavegationRutes.FRAGMENT_ANIME_DETAIL}/${data.node.id}")
+                navHostFragment.navigate("${NavegationRutes.FRAGMENT_ANIME_DETAIL}/${data.node.id}")
             }
         }
     }

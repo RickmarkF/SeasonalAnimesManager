@@ -5,7 +5,8 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.rickmark.seriesviewmanager.domain.models.BaseData
+import com.rickmark.seriesviewmanager.domain.models.AnimeDetails
+import com.rickmark.seriesviewmanager.domain.models.Data
 
 interface IAnimeManager {
 
@@ -18,5 +19,7 @@ interface IAnimeManager {
     ): Unit
 
     fun getSeasonalAnime(
-    ): BaseData?
+    ): List<Data>?
+
+    fun getAnimeDetails(id: Int?): AnimeDetails?
 }

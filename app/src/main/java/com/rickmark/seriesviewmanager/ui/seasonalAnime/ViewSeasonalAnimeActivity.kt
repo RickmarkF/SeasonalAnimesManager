@@ -24,12 +24,12 @@ class ViewSeasonalAnimeActivity : AppCompatActivity(R.layout.activity_view_seaso
         navController.graph = navController.createGraph(
             startDestination = NavegationRutes.FRAGMENT_SEASONAL_ANIMES,
         ) {
-            fragment<ShowSeasonalAnimesFragment>(NavegationRutes.FRAGMENT_SEASONAL_ANIMES){
+            fragment<ShowSeasonalAnimesFragment>(NavegationRutes.FRAGMENT_SEASONAL_ANIMES) {
                 label = "Animes de la temporada"
             }
-            fragment<DetailSeasonalAnimeFragment>("${NavegationRutes.FRAGMENT_ANIME_DETAIL}/{anime_id}"){
+            fragment<DetailSeasonalAnimeFragment>("${NavegationRutes.FRAGMENT_ANIME_DETAIL}/{anime_id}") {
                 label = "Detalles del anime"
-                argument("anime_id"){
+                argument("anime_id") {
                     type = NavType.IntType
                 }
             }
@@ -47,7 +47,6 @@ class ViewSeasonalAnimeActivity : AppCompatActivity(R.layout.activity_view_seaso
         inflater.inflate(R.menu.top_app_bar, menu)
         return true
     }
-
 
 
 }

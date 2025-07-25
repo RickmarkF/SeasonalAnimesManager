@@ -2,7 +2,9 @@ package com.rickmark.seriesviewmanager.data.request
 
 import com.rickmark.seriesviewmanager.domain.constants.HttpEndpoints
 import com.rickmark.seriesviewmanager.domain.constants.HttpProperties
-import com.rickmark.seriesviewmanager.domain.models.BaseData
+import com.rickmark.seriesviewmanager.domain.models.AnimeDetails
+import com.rickmark.seriesviewmanager.domain.models.AnimeListData
+import com.rickmark.seriesviewmanager.domain.models.Data
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.cio.CIO
@@ -22,10 +24,10 @@ class RequestManager {
 
     private val token: String = "ad1162093716f04f8cba96898a43d093";
 
-    fun getAnimeRequest(animeName: String): BaseData? {
+    fun getAnime(animeName: String): AnimeListData? {
         val url: String = HttpEndpoints.MY_ANIME_LIST_BASE_URL + "anime"
         val jsonBuilder: Json = Json(builderAction = getJsonBuilder())
-        var baseData: BaseData? = null
+        var animeListData: AnimeListData? = null
 
         runBlocking {
             launch {
@@ -34,18 +36,18 @@ class RequestManager {
                     install(ContentNegotiation) { json(jsonBuilder) }
                 }
                 val request = prepareRequest(animeName)
-                baseData = client
+                animeListData = client
                     .get(url, request)
-                    .body(TypeInfo(BaseData::class))
+                    .body(TypeInfo(AnimeListData::class))
             }
         }
-        return baseData
+        return animeListData
     }
 
-    fun getSeasonalAnime(season: String, year: String): BaseData? {
+    fun getSeasonalAnime(season: String, year: String): List<Data>? {
         val url: String = HttpEndpoints.MY_ANIME_LIST_BASE_URL + "anime/season/${year}/${season}"
         val jsonBuilder: Json = Json(builderAction = getJsonBuilder())
-        var baseData: BaseData? = null
+        var baseData: List<Data>? = null
         runBlocking {
             launch {
                 val client = HttpClient(CIO) {
@@ -54,12 +56,33 @@ class RequestManager {
                 }
 
                 val request = prepareRequest2()
-
-                baseData = client.get(url, request).body()
+                val result: AnimeListData = client.get(url, request).body()
+                baseData = result.data
             }
 
         }
 
+        return baseData
+    }
+
+    fun getAnimeDetails(id: Int?): AnimeDetails? {
+        val url: String = HttpEndpoints.MY_ANIME_LIST_BASE_URL + "anime/${id}"
+        val jsonBuilder: Json = Json(builderAction = getJsonBuilder())
+        var baseData: AnimeDetails? = null
+
+        runBlocking {
+            launch {
+                val client = HttpClient(CIO) {
+                    expectSuccess = true
+                    install(ContentNegotiation) { json(jsonBuilder) }
+                }
+                val request = prepareRequest3()
+
+                baseData = client
+                    .get(url, request)
+                    .body(TypeInfo(AnimeDetails::class))
+            }
+        }
         return baseData
     }
 
@@ -78,6 +101,33 @@ class RequestManager {
 
     private fun prepareRequest2(): HttpRequestBuilder.() -> Unit = {
         parameter("limit", 30)
+        headers {
+            append(HttpProperties.MY_ANIME_LIST_HEADER_ID, token)
+        }
+    }
+
+    private fun prepareRequest3(): HttpRequestBuilder.() -> Unit = {
+        parameter(
+            "fields", "title," +
+                    "main_picture," +
+                    "alternative_titles," +
+                    "start_date," +
+                    "end_date," +
+                    "synopsis," +
+                    "media_type," +
+                    "status," +
+                    "genres," +
+                    "num_episodes," +
+                    "start_season," +
+                    "source," +
+                    "average_episode_duration," +
+                    "pictures," +
+                    "related_anime," +
+                    "related_manga," +
+                    "recommendations," +
+                    "studios"
+        )
+        // parameter("fields","title,synopsis")
         headers {
             append(HttpProperties.MY_ANIME_LIST_HEADER_ID, token)
         }
