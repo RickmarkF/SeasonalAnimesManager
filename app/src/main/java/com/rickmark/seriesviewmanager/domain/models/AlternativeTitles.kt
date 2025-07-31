@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class AlternativeTitles(
-    val synonyms: List<String>,
+    val synonyms: ArrayList<String>,
 
     @SerialName("en")
     val english: String,
