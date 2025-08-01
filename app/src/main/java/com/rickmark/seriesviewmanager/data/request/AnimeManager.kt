@@ -65,7 +65,7 @@ class AnimeManager : IAnimeManager {
     }
 
     override fun getSeasonalAnime(): List<Data>? {
-        return request.getSeasonalAnime(season = "winter", year = "2017")
+        return request.getSeasonalAnime(season = "summer", year = "2025")
     }
 
     override fun getAnimeDetails(id: Int?): AnimeDetails? {

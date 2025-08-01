@@ -11,6 +11,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.fragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.rickmark.seriesviewmanager.R
 import com.rickmark.seriesviewmanager.domain.constants.NavegationRutes
 
@@ -40,6 +41,9 @@ class ViewSeasonalAnimeActivity : AppCompatActivity(R.layout.activity_view_seaso
         setSupportActionBar(toolbar)
         toolbar.setupWithNavController(navController, AppBarConfiguration(navController.graph))
 
+        val navBottom: BottomNavigationView = findViewById(R.id.bottomNavigationView)
+        navBottom.menu.clear()
+        navBottom.inflateMenu(R.menu.navegation)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

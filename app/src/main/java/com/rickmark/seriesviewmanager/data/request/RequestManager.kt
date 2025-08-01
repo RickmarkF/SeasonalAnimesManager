@@ -100,7 +100,7 @@ class RequestManager {
     }
 
     private fun prepareRequest2(): HttpRequestBuilder.() -> Unit = {
-        parameter("limit", 30)
+        parameter("limit", 500)
         headers {
             append(HttpProperties.MY_ANIME_LIST_HEADER_ID, token)
         }
