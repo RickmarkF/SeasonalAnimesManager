@@ -2,11 +2,11 @@
     <item
         android:id="@+id/item_1"
         android:enabled="true"
-        android:icon="@drawable/common_google_signin_btn_icon_dark_focused"
-        android:title="pepepep1"/>
+        android:icon="@drawable/baseline_bungalow_24"
+        android:title="Animes de temporada"/>
     <item
         android:id="@+id/item_2"
         android:enabled="true"
-        android:icon="@drawable/common_full_open_on_phone"
-        android:title="pepepe2"/>
+        android:icon="@drawable/baseline_account_box_24"
+        android:title="Mi perfil"/>
 </menu>
