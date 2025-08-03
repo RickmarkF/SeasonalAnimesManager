@@ -13,8 +13,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.SeriesViewManager"
+        android:theme="@style/Theme.AppCompat"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.seasonalAnime.ViewSeasonalAnimeActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".ui.SearchAnimeActivity"
             android:exported="false" />
@@ -23,6 +27,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

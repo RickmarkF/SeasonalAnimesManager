@@ -4,10 +4,9 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Node(
-    val id: Long,
-    val title: String,
-    @SerialName("main_picture")
-    val mainPicture: Picture
-)
+data class Recommendation(
+    val node: Node,
 
+    @SerialName("num_recommendations")
+    val numRecommendations: Long
+)
