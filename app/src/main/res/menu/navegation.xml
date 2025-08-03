@@ -1,11 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/item_1"
+        android:id="@+id/seasonal_animes"
         android:enabled="true"
         android:icon="@drawable/baseline_bungalow_24"
         android:title="Animes de temporada"/>
     <item
-        android:id="@+id/item_2"
+        android:id="@+id/profile"
         android:enabled="true"
         android:icon="@drawable/baseline_account_box_24"
         android:title="Mi perfil"/>

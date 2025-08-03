@@ -14,6 +14,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.rickmark.seriesviewmanager.R
 import com.rickmark.seriesviewmanager.domain.constants.NavegationRutes
+import com.rickmark.seriesviewmanager.ui.MyProfileFragment
 
 class ViewSeasonalAnimeActivity : AppCompatActivity(R.layout.activity_view_seasonal_anime) {
 
@@ -26,29 +27,59 @@ class ViewSeasonalAnimeActivity : AppCompatActivity(R.layout.activity_view_seaso
             startDestination = NavegationRutes.FRAGMENT_SEASONAL_ANIMES,
         ) {
             fragment<ShowSeasonalAnimesFragment>(NavegationRutes.FRAGMENT_SEASONAL_ANIMES) {
-                label = "Animes de la temporada"
+                label = "Animes de temporada"
             }
             fragment<DetailSeasonalAnimeFragment>("${NavegationRutes.FRAGMENT_ANIME_DETAIL}/{anime_id}") {
-                label = "Detalles del anime"
+                label = "Detalles anime"
                 argument("anime_id") {
                     type = NavType.IntType
                 }
+            }
+
+            fragment<MyProfileFragment>(NavegationRutes.FRAGMENT_PROFILE) {
+                label = "Perfil"
             }
         }
 
         val toolbar: Toolbar = findViewById(R.id.my_toolbar)
 
         setSupportActionBar(toolbar)
-        toolbar.setupWithNavController(navController, AppBarConfiguration(navController.graph))
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+
+        val topLevelIds : List<Int> = navController.graph.filter {
+            it.route == NavegationRutes.FRAGMENT_PROFILE ||
+                    it.route == NavegationRutes.FRAGMENT_SEASONAL_ANIMES
+        }.map{
+            it.id
+        }
+
+
+        val appBarConfiguration = AppBarConfiguration.Builder(topLevelDestinationIds = topLevelIds.toSet())
+            .build()
+        toolbar.setupWithNavController(navController, appBarConfiguration)
+
 
         val navBottom: BottomNavigationView = findViewById(R.id.bottomNavigationView)
         navBottom.menu.clear()
         navBottom.inflateMenu(R.menu.navegation)
+        navBottom.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.seasonal_animes -> {
+                    navController.navigate(NavegationRutes.FRAGMENT_SEASONAL_ANIMES)
+                    true
+                }
+                R.id.profile -> {
+                    navController.navigate(NavegationRutes.FRAGMENT_PROFILE)
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.top_app_bar, menu)
+        //inflater.inflate(R.menu.top_app_bar, menu)
         return true
     }
 

@@ -19,6 +19,7 @@ interface IAnimeManager {
     ): Unit
 
     fun getSeasonalAnime(
+        season: String, year: Int
     ): List<Data>?
 
     fun getAnimeDetails(id: Int?): AnimeDetails?

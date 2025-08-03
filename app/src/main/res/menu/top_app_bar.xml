@@ -7,21 +7,4 @@
         android:title="prime"
         app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/search"
-        android:title="prime2"
-        app:showAsAction="ifRoom" />
-
-
-    <item
-        android:id="@+id/action_favorite"
-        android:title="uno"
-        app:showAsAction="never" />
-
-    <!-- Settings, must always be in the overflow. -->
-    <item
-        android:id="@+id/action_settings"
-        android:title="dos"
-        app:showAsAction="never" />
-
 </menu>

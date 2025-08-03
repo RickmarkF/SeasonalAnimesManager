@@ -5,5 +5,7 @@ class NavegationRutes {
         var FRAGMENT_SEASONAL_ANIMES = "seasonal_animes"
         var FRAGMENT_ANIME_DETAIL = "anime_detail"
 
+        var FRAGMENT_PROFILE = "profile"
+
     }
 }

@@ -10,13 +10,12 @@
 
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/temporada_actual"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
         android:background="@color/md_theme_error_highContrast"
         android:gravity="center|center_horizontal"
-        android:text="@string/texto_anime_temporada"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
