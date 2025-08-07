@@ -127,7 +127,6 @@ class RequestManager {
                     "recommendations," +
                     "studios"
         )
-        // parameter("fields","title,synopsis")
         headers {
             append(HttpProperties.MY_ANIME_LIST_HEADER_ID, token)
         }

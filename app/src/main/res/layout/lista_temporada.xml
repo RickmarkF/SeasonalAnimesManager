@@ -9,16 +9,16 @@
         android:id="@+id/animeImage"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:scaleType="centerCrop"
-        android:contentDescription="@string/anime_de_la_temporada_imagen" />
+        android:contentDescription="@string/anime_de_la_temporada_imagen"
+        android:scaleType="centerCrop" />
 
     <TextView
         android:id="@+id/animeName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="4dp"
         android:text="@string/app_name"
         android:textAlignment="center"
-        android:textSize="14sp"
-        android:paddingTop="4dp" />
+        android:textSize="14sp" />
 
 </LinearLayout>
