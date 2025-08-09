@@ -10,8 +10,8 @@ class SeasonalAnimeViewModel : ViewModel() {
     private val manager: IAnimeManager = AnimeManager()
 
     private var seasonalAnimeList: List<Data>? = null
-    private lateinit var season: String
-    private var year: Int = 0
+    private var season: String = CalendarUtilities.getSeason()
+    private var year: Int = CalendarUtilities.getYear()
 
 
     fun getSeason(): String = this.season
@@ -24,35 +24,7 @@ class SeasonalAnimeViewModel : ViewModel() {
             return seasonalAnimeList
         }
 
-        setCurrentlySeason()
         seasonalAnimeList = manager.getSeasonalAnime(season, year)
         return seasonalAnimeList
     }
-
-    private fun setCurrentlySeason(): Unit {
-        val calendar = Calendar.getInstance()
-        calendar.timeInMillis = System.currentTimeMillis()
-        this.year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH)
-
-        when (month) {
-            Calendar.JANUARY, Calendar.FEBRUARY, Calendar.MARCH -> {
-                this.season = "winter"
-            }
-
-            Calendar.APRIL, Calendar.MAY, Calendar.JUNE -> {
-                this.season = "spring"
-            }
-
-            Calendar.JULY, Calendar.AUGUST, Calendar.SEPTEMBER -> {
-                this.season = "summer"
-            }
-
-            Calendar.OCTOBER, Calendar.NOVEMBER, Calendar.DECEMBER -> {
-                this.season = "fall"
-            }
-        }
-    }
-
-
 }

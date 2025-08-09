@@ -11,14 +11,17 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.rickmark.seriesviewmanager.R
+import com.rickmark.seriesviewmanager.data.FirebaseRepository
 import com.rickmark.seriesviewmanager.data.SupportActionBarViewModel
 import com.rickmark.seriesviewmanager.data.request.AnimeManager
 import com.rickmark.seriesviewmanager.domain.interfaces.IAnimeManager
+import com.rickmark.seriesviewmanager.domain.interfaces.IFarebaseRespository
 import com.rickmark.seriesviewmanager.domain.models.AnimeDetails
 
 class DetailSeasonalAnimeFragment : Fragment(R.layout.fragment_detail_seasonal_anime) {
 
     private val barViewModel: SupportActionBarViewModel by activityViewModels()
+    private val repository: IFarebaseRespository = FirebaseRepository()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,6 +48,18 @@ class DetailSeasonalAnimeFragment : Fragment(R.layout.fragment_detail_seasonal_a
         alternativeTittlesSpinner.adapter = adapter
         Glide.with(this).load(data?.mainPicture?.large).into(animeImage);
         sinopsys.text = data?.synopsis
+
+        barViewModel.getToolbar().setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.seasonalAnime -> {
+                    repository.writeInFirebase(data.title,animeId)
+                    true
+                }
+
+                else -> false
+            }
+        }
+
 
     }
 

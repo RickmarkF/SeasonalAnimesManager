@@ -15,8 +15,10 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.rickmark.seriesviewmanager.R
+import com.rickmark.seriesviewmanager.data.FirebaseRepository
 import com.rickmark.seriesviewmanager.data.SupportActionBarViewModel
 import com.rickmark.seriesviewmanager.domain.constants.NavegationRutes
+import com.rickmark.seriesviewmanager.domain.interfaces.IFarebaseRespository
 import com.rickmark.seriesviewmanager.ui.MyProfileFragment
 
 class ViewSeasonalAnimeActivity : AppCompatActivity(R.layout.activity_view_seasonal_anime) {
@@ -47,17 +49,8 @@ class ViewSeasonalAnimeActivity : AppCompatActivity(R.layout.activity_view_seaso
 
         val toolbar: Toolbar = findViewById(R.id.my_toolbar)
         setSupportActionBar(toolbar)
+        actionBarViewModel.setToolbar(toolbar)
         actionBarViewModel.setActionBar(supportActionBar)
-        toolbar.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.seasonalAnime -> {
-                    //TODO: Cargar el anime en firebase
-                    true
-                }
-
-                else -> false
-            }
-        }
 
         val topLevelIds: List<Int> = navController.graph.filter {
             it.route == NavegationRutes.FRAGMENT_PROFILE ||

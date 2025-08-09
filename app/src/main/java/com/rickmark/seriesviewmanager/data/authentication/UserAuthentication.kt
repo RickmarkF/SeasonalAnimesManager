@@ -8,9 +8,10 @@ import com.rickmark.seriesviewmanager.ui.LoginActivity
 import com.rickmark.seriesviewmanager.ui.SearchAnimeActivity
 
 class UserAuthentication(
-    private val auth: FirebaseAuth,
     private val context: LoginActivity
 ) : IUserAuthenticator {
+
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     override fun createUser(email: String, password: String) {
 

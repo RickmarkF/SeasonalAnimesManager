@@ -17,7 +17,7 @@ import com.rickmark.seriesviewmanager.data.authentication.UserAuthentication
 import com.rickmark.seriesviewmanager.domain.interfaces.IUserAuthenticator
 import com.rickmark.seriesviewmanager.ui.seasonalAnime.ViewSeasonalAnimeActivity
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity(R.layout.login) {
 
     private lateinit var editTextEmailAddress: EditText
     private lateinit var editTextPassword: EditText
@@ -35,8 +35,7 @@ class LoginActivity : AppCompatActivity() {
 
     public override fun onStart() {
         super.onStart()
-        userAuthenticator = UserAuthentication(auth, this)
-        //MyHTTPServer(8080).also { it.start() }
+        userAuthenticator = UserAuthentication(this)
         val currentUser = auth.currentUser
         if (currentUser != null) {
             val sendIntent = Intent(this, ViewSeasonalAnimeActivity::class.java)
@@ -48,19 +47,17 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.login)
 
+        ViewCompat.setOnApplyWindowInsetsListener(
+            findViewById(R.id.login),
+            this::prepareWindowInsets
+        )
 
         editTextEmailAddress = findViewById(R.id.editTextEmailAddress)
         editTextPassword = findViewById(R.id.editTextPassword)
         buttonCreateAccount = findViewById(R.id.createAccount)
         buttonLogin = findViewById(R.id.loginButton)
 
-
-        ViewCompat.setOnApplyWindowInsetsListener(
-            findViewById(R.id.login),
-            this::prepareWindowInsets
-        )
 
         buttonCreateAccount.setOnClickListener(this::register)
         buttonLogin.setOnClickListener(this::login)
