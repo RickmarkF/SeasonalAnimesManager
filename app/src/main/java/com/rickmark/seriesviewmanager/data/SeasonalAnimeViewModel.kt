@@ -28,7 +28,7 @@ class SeasonalAnimeViewModel : ViewModel() {
             if (_seasonalAnimes.value.isNullOrEmpty()) {
                 val data: List<Data>? = manager.getSeasonalAnime(season, year)
                 if (data != null) {
-                    _seasonalAnimes.value = data
+                    _seasonalAnimes.value = data.sortedBy { it.node.title }
                 }
             }
     }
