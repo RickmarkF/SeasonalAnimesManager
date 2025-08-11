@@ -18,6 +18,28 @@
             android:layout_height="wrap_content"
             android:layout_weight="1" />
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/start_season"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/appbar_scrolling_view_behavior"/>
+            <TextView
+                android:id="@+id/start_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/appbar_scrolling_view_behavior"/>
+            <TextView
+                android:id="@+id/num_episodes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/appbar_scrolling_view_behavior"/>
+
+        </LinearLayout>
+
         <ImageView
             android:id="@+id/imageSeasonalAnime"
             android:layout_width="400dp"

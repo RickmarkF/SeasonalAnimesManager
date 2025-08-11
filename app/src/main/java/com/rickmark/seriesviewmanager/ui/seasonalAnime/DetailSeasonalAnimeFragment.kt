@@ -47,12 +47,19 @@ class DetailSeasonalAnimeFragment : Fragment(R.layout.fragment_detail_seasonal_a
             if (data != null) {
                 val animeImage: ImageView = view.findViewById(R.id.imageSeasonalAnime)
                 val sinopsys: TextView = view.findViewById(R.id.sinopsysSeasonalAnime)
+                val startSeason: TextView = view.findViewById(R.id.start_season)
+                val episodesNum: TextView = view.findViewById(R.id.num_episodes)
+                val startDate: TextView = view.findViewById(R.id.start_date)
                 val alternativeTittlesSpinner: Spinner =
                     view.findViewById(R.id.alternativeTittlesSpinner)
 
-                val tittleList: ArrayList<String> = data?.alternativeTitles!!.synonyms
+                val tittleList: ArrayList<String> = data.alternativeTitles.synonyms
                 tittleList.add(data?.alternativeTitles!!.english)
                 tittleList.add(data?.alternativeTitles!!.japanese)
+
+                startSeason.text = "Season Inicial del anime: ${data.startSeason}"
+                startDate.text = "Fecha de inicio: ${data.startDate}"
+                episodesNum.text = "Número de episodios: ${data.numEpisodes}"
 
                 val adapter: ArrayAdapter<String> =
                     ArrayAdapter(
