@@ -7,28 +7,25 @@
 
     <LinearLayout
         android:id="@+id/primer_layout"
-        android:layout_width="214dp"
+        android:layout_width="match_parent"
         android:layout_height="184dp"
-        android:orientation="horizontal"
-        android:padding="8dp"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/nombre"
-            android:layout_width="83dp"
-            android:layout_height="167dp"
-            android:layout_weight="1"
+            android:id="@+id/anime_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:text="Nombre"
             android:textSize="16sp" />
 
         <ImageView
-            android:id="@+id/imagenAnime"
-            android:layout_width="110dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
+            android:id="@+id/anime_imagen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:contentDescription="describe"
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/ic_launcher_foreground" />

@@ -8,6 +8,7 @@ import com.rickmark.seriesviewmanager.domain.models.Data
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.cio.CIO
+import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.get
@@ -15,8 +16,6 @@ import io.ktor.client.request.headers
 import io.ktor.client.request.parameter
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.util.reflect.TypeInfo
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonBuilder
 
@@ -24,66 +23,54 @@ class RequestManager {
 
     private val token: String = "ad1162093716f04f8cba96898a43d093";
 
-    fun getAnime(animeName: String): AnimeListData? {
+    suspend fun getAnime(animeName: String): AnimeListData? {
         val url: String = HttpEndpoints.MY_ANIME_LIST_BASE_URL + "anime"
-        val jsonBuilder: Json = Json(builderAction = getJsonBuilder())
         var animeListData: AnimeListData? = null
+        val client = getHttpClient()
+        val request = prepareRequest(animeName)
 
-        runBlocking {
-            launch {
-                val client = HttpClient(CIO) {
-                    expectSuccess = true
-                    install(ContentNegotiation) { json(jsonBuilder) }
-                }
-                val request = prepareRequest(animeName)
-                animeListData = client
-                    .get(url, request)
-                    .body(TypeInfo(AnimeListData::class))
-            }
-        }
+
+        animeListData = client
+            .get(url, request)
+            .body(TypeInfo(AnimeListData::class))
+
         return animeListData
     }
 
-    fun getSeasonalAnime(season: String, year: Int): List<Data>? {
+    suspend fun getSeasonalAnime(season: String, year: Int): List<Data>? {
         val url: String = HttpEndpoints.MY_ANIME_LIST_BASE_URL + "anime/season/${year}/${season}"
-        val jsonBuilder: Json = Json(builderAction = getJsonBuilder())
         var baseData: List<Data>? = null
-        runBlocking {
-            launch {
-                val client = HttpClient(CIO) {
-                    expectSuccess = true
-                    install(ContentNegotiation) { json(jsonBuilder) }
-                }
-
-                val request = prepareRequest2()
-                val result: AnimeListData = client.get(url, request).body()
-                baseData = result.data
-            }
-
-        }
+        val client = getHttpClient()
+        val request = prepareRequest2()
+        val result: AnimeListData = client.get(url, request).body()
+        baseData = result.data
 
         return baseData
     }
 
-    fun getAnimeDetails(id: Int?): AnimeDetails? {
+    suspend fun getAnimeDetails(id: Int?): AnimeDetails? {
         val url: String = HttpEndpoints.MY_ANIME_LIST_BASE_URL + "anime/${id}"
-        val jsonBuilder: Json = Json(builderAction = getJsonBuilder())
         var baseData: AnimeDetails? = null
+        val client = getHttpClient()
+        val request = prepareRequest3()
 
-        runBlocking {
-            launch {
-                val client = HttpClient(CIO) {
-                    expectSuccess = true
-                    install(ContentNegotiation) { json(jsonBuilder) }
-                }
-                val request = prepareRequest3()
+        baseData = client
+            .get(url, request)
+            .body(TypeInfo(AnimeDetails::class))
 
-                baseData = client
-                    .get(url, request)
-                    .body(TypeInfo(AnimeDetails::class))
-            }
-        }
         return baseData
+    }
+
+    private fun getHttpClient(): HttpClient = HttpClient(CIO) {
+        install(HttpTimeout) {
+            connectTimeoutMillis = 30000  // 15 segundos
+            socketTimeoutMillis = 30000
+            requestTimeoutMillis = 30000
+        }
+        install(ContentNegotiation) {
+            json(Json(builderAction = getJsonBuilder()))
+        }
+        expectSuccess = true
     }
 
     private fun getJsonBuilder(): JsonBuilder.() -> Unit = {

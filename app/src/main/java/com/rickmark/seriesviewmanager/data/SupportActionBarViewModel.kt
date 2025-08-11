@@ -9,11 +9,11 @@ class SupportActionBarViewModel : ViewModel() {
 
     private lateinit var actionBar: ActionBar
     private lateinit var toolbar: Toolbar
-    
+
     fun setToolbar(toolbar: Toolbar) {
         this.toolbar = toolbar
     }
-    
+
     fun getToolbar(): Toolbar {
         return toolbar
     }

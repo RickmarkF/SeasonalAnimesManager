@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isEmpty
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavType
 import androidx.navigation.createGraph
 import androidx.navigation.fragment.NavHostFragment
@@ -15,94 +16,99 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.rickmark.seriesviewmanager.R
-import com.rickmark.seriesviewmanager.data.FirebaseRepository
 import com.rickmark.seriesviewmanager.data.SupportActionBarViewModel
 import com.rickmark.seriesviewmanager.domain.constants.NavegationRutes
-import com.rickmark.seriesviewmanager.domain.interfaces.IFarebaseRespository
 import com.rickmark.seriesviewmanager.ui.MyProfileFragment
+import com.rickmark.seriesviewmanager.data.SeasonalAnimeViewModel
+import kotlinx.coroutines.launch
 
 class ViewSeasonalAnimeActivity : AppCompatActivity(R.layout.activity_view_seasonal_anime) {
 
     private val actionBarViewModel: SupportActionBarViewModel by viewModels()
+    private val seasonalAnimeViewModel: SeasonalAnimeViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
-        val navController = navHostFragment.navController
-        navController.graph = navController.createGraph(
-            startDestination = NavegationRutes.FRAGMENT_SEASONAL_ANIMES,
-        ) {
-            fragment<ShowSeasonalAnimesFragment>(NavegationRutes.FRAGMENT_SEASONAL_ANIMES)
-            fragment<DetailSeasonalAnimeFragment>("${NavegationRutes.FRAGMENT_ANIME_DETAIL}/{anime_id}") {
-                label = "Detalles anime"
-                argument("anime_id") {
-                    type = NavType.IntType
+
+        lifecycleScope.launch {
+            seasonalAnimeViewModel.loadSeasonalAnimesIfNeeded()
+
+            val navHostFragment =
+                supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
+            val navController = navHostFragment.navController
+            navController.graph = navController.createGraph(
+                startDestination = NavegationRutes.FRAGMENT_SEASONAL_ANIMES,
+            ) {
+                fragment<ShowSeasonalAnimesFragment>(NavegationRutes.FRAGMENT_SEASONAL_ANIMES)
+                fragment<DetailSeasonalAnimeFragment>("${NavegationRutes.FRAGMENT_ANIME_DETAIL}/{anime_id}") {
+                    label = "Detalles anime"
+                    argument("anime_id") {
+                        type = NavType.IntType
+                    }
+                }
+
+                fragment<MyProfileFragment>(NavegationRutes.FRAGMENT_PROFILE) {
+                    label = "Perfil"
                 }
             }
 
-            fragment<MyProfileFragment>(NavegationRutes.FRAGMENT_PROFILE) {
-                label = "Perfil"
+            val toolbar: Toolbar = findViewById(R.id.my_toolbar)
+            setSupportActionBar(toolbar)
+            actionBarViewModel.setToolbar(toolbar)
+            actionBarViewModel.setActionBar(supportActionBar)
+
+            val topLevelIds: List<Int> = navController.graph.filter {
+                it.route == NavegationRutes.FRAGMENT_PROFILE ||
+                        it.route == NavegationRutes.FRAGMENT_SEASONAL_ANIMES
+            }.map {
+                it.id
             }
-        }
 
-        val toolbar: Toolbar = findViewById(R.id.my_toolbar)
-        setSupportActionBar(toolbar)
-        actionBarViewModel.setToolbar(toolbar)
-        actionBarViewModel.setActionBar(supportActionBar)
+            navController.addOnDestinationChangedListener { _, destination, _ ->
 
-        val topLevelIds: List<Int> = navController.graph.filter {
-            it.route == NavegationRutes.FRAGMENT_PROFILE ||
-                    it.route == NavegationRutes.FRAGMENT_SEASONAL_ANIMES
-        }.map {
-            it.id
-        }
+                when (destination.route) {
+                    NavegationRutes.FRAGMENT_SEASONAL_ANIMES -> {
+                        supportActionBar?.hide()
+                        if (toolbar.menu.isEmpty()) {
+                            toolbar.inflateMenu(R.menu.top_app_bar)
+                        }
 
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-
-            when (destination.route) {
-                NavegationRutes.FRAGMENT_SEASONAL_ANIMES -> {
-                    supportActionBar?.hide()
-                    if (toolbar.menu.isEmpty()) {
-                        toolbar.inflateMenu(R.menu.top_app_bar)
                     }
 
+                    else -> {
+                        supportActionBar?.show()
+                    }
                 }
+            }
 
-                else -> {
-                    supportActionBar?.show()
+            val appBarConfiguration =
+                AppBarConfiguration.Builder(topLevelDestinationIds = topLevelIds.toSet())
+                    .build()
+            toolbar.setupWithNavController(navController, appBarConfiguration)
+
+
+            val navBottom: BottomNavigationView = findViewById(R.id.bottomNavigationView)
+            navBottom.menu.clear()
+            navBottom.inflateMenu(R.menu.navegation)
+            navBottom.setOnItemSelectedListener {
+                when (it.itemId) {
+                    R.id.seasonal_animes -> {
+                        navController.navigate(NavegationRutes.FRAGMENT_SEASONAL_ANIMES)
+                        supportActionBar?.hide()
+                        true
+                    }
+
+                    R.id.profile -> {
+                        navController.navigate(NavegationRutes.FRAGMENT_PROFILE)
+                        toolbar.menu.clear()
+                        true
+                    }
+
+                    else -> false
                 }
             }
         }
-
-        val appBarConfiguration =
-            AppBarConfiguration.Builder(topLevelDestinationIds = topLevelIds.toSet())
-                .build()
-        toolbar.setupWithNavController(navController, appBarConfiguration)
-
-
-        val navBottom: BottomNavigationView = findViewById(R.id.bottomNavigationView)
-        navBottom.menu.clear()
-        navBottom.inflateMenu(R.menu.navegation)
-        navBottom.setOnItemSelectedListener {
-            when (it.itemId) {
-                R.id.seasonal_animes -> {
-                    navController.navigate(NavegationRutes.FRAGMENT_SEASONAL_ANIMES)
-                    supportActionBar?.hide()
-                    true
-                }
-
-                R.id.profile -> {
-                    navController.navigate(NavegationRutes.FRAGMENT_PROFILE)
-                    toolbar.menu.clear()
-                    true
-                }
-
-                else -> false
-            }
-        }
-
 
     }
 

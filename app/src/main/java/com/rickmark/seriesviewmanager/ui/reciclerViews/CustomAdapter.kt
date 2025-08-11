@@ -22,8 +22,8 @@ class CustomAdapter(private val dataSet: List<Data>, private val context: Contex
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val imageView: ImageView = view.findViewById(R.id.imagenAnime)
-        val textView: TextView = view.findViewById(R.id.nombre)
+        val imageView: ImageView = view.findViewById(R.id.anime_imagen)
+        val textView: TextView = view.findViewById(R.id.anime_name)
     }
 
     @OptIn(ExperimentalSerializationApi::class)

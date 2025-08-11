@@ -10,7 +10,7 @@ import com.rickmark.seriesviewmanager.domain.models.Data
 
 interface IAnimeManager {
 
-    fun getAnimeFromMyanimeList(
+    suspend fun getAnimeFromMyanimeList(
         editText: EditText,
         mostrar: TextView,
         image: ImageView,
@@ -18,9 +18,9 @@ interface IAnimeManager {
         context: Context
     ): Unit
 
-    fun getSeasonalAnime(
+    suspend fun getSeasonalAnime(
         season: String, year: Int
     ): List<Data>?
 
-    fun getAnimeDetails(id: Int?): AnimeDetails?
+    suspend fun getAnimeDetails(id: Int?): AnimeDetails?
 }

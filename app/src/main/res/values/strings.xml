@@ -47,4 +47,10 @@
     <string name="anime_de_la_temporada_imagen">anime de la temporada imagen</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="seasons">
+        <item>winter</item>
+        <item>spring</item>
+        <item>summer</item>
+        <item>fall</item>
+    </string-array>
 </resources>

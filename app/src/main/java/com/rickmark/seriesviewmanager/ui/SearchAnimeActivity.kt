@@ -53,7 +53,7 @@ class SearchAnimeActivity : AppCompatActivity() {
         val request: IAnimeManager = AnimeManager()
 
         send.setOnClickListener {
-            request.getAnimeFromMyanimeList(describe, textoMostrar, image, recyclerView, this)
+            //request.getAnimeFromMyanimeList(describe, textoMostrar, image, recyclerView, this)
         }
 
         logout.setOnClickListener {

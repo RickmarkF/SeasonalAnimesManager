@@ -1,30 +1,36 @@
 package com.rickmark.seriesviewmanager.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.Spinner
-import androidx.fragment.app.Fragment
-import com.rickmark.seriesviewmanager.R
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.rickmark.seriesviewmanager.R
 import com.rickmark.seriesviewmanager.data.CalendarUtilities
 import com.rickmark.seriesviewmanager.data.FirebaseRepository
+import com.rickmark.seriesviewmanager.data.SeasonalAnimeViewModel
+import com.rickmark.seriesviewmanager.data.request.AnimeManager
+import com.rickmark.seriesviewmanager.domain.interfaces.IAnimeManager
 import com.rickmark.seriesviewmanager.domain.interfaces.IFarebaseRespository
-import com.rickmark.seriesviewmanager.ui.reciclerViews.SeasonalAnimeRecyclerAdapter
+import com.rickmark.seriesviewmanager.domain.models.AnimeDetails
+import com.rickmark.seriesviewmanager.domain.models.Data
+import com.rickmark.seriesviewmanager.ui.reciclerViews.MyProfileRecyclerAdapter
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlin.getValue
 
 class MyProfileFragment : Fragment(R.layout.fragment_my_profile) {
 
     val repository: IFarebaseRespository = FirebaseRepository()
+
+    private val seasonalAnimeViewModel: SeasonalAnimeViewModel by activityViewModels()
+    val manager: IAnimeManager = AnimeManager()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -33,9 +39,11 @@ class MyProfileFragment : Fragment(R.layout.fragment_my_profile) {
         val seasonSpinner: Spinner = view.findViewById<Spinner>(R.id.season_anime_spinner)
         val yearSpinner: Spinner = view.findViewById<Spinner>(R.id.year_anime_spinner)
         val anime_whistliss: RecyclerView = view.findViewById<RecyclerView>(R.id.season_anime_list)
+        val showAnimeButton: Button = view.findViewById<Button>(R.id.show_anime_button)
 
         updateUserName(userName)
-        updateSpinner(seasonSpinner, mutableListOf("winter", "spring", "summer", "fall"))
+        val seasons: Array<String> = resources.getStringArray(R.array.seasons)
+        updateSpinner(seasonSpinner, seasons.toMutableList())
 
         val actualYear: Int = CalendarUtilities.getYear()
         val yearsList: MutableList<String> = mutableListOf()
@@ -44,18 +52,47 @@ class MyProfileFragment : Fragment(R.layout.fragment_my_profile) {
         }
         updateSpinner(yearSpinner, yearsList)
 
-        repository.readFromFirebase().addOnSuccessListener { dataSnapshot ->
-            val result : Map<String, Long> = dataSnapshot?.value as Map<String, Long>
-            result.forEach { (key, value) ->
-                Log.d("Firebase", "Key: $key, Value: $value")
-            }
+        showAnimeButton.setOnClickListener {
+            showAnime(anime_whistliss, seasonSpinner, yearSpinner)
+        }
 
-       }
+
     }
 
-    fun updateSpinner(spinner: Spinner,list: MutableList<String>) {
-        val adapter = ArrayAdapter(requireContext(),
-            android.R.layout.simple_spinner_item, list)
+    private fun showAnime(
+        anime_whistliss: RecyclerView,
+        seasonSpinner: Spinner,
+        yearSpinner: Spinner
+    ) {
+
+        val season: String = seasonSpinner.selectedItem.toString()
+        val year: String = yearSpinner.selectedItem.toString()
+
+        repository.readFromFirebase(year.toInt(), season).addOnSuccessListener { dataSnapshot ->
+            lifecycleScope.launch {
+                val result: Map<String, Long> = dataSnapshot?.value as Map<String, Long>
+                val animes: MutableList<Data> = mutableListOf()
+                result.forEach { (key, value) ->
+                    val data: Data? = seasonalAnimeViewModel.seasonalAnimes.value?.firstOrNull() {
+                        it.node.id == value
+                    }
+                    animes.add(data!!)
+                }
+
+                anime_whistliss.also {
+                    it.layoutManager = LinearLayoutManager(requireContext())
+                    it.adapter = MyProfileRecyclerAdapter(animes, requireContext())
+
+                }
+            }
+        }
+    }
+
+    fun updateSpinner(spinner: Spinner, list: MutableList<String>) {
+        val adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item, list
+        )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
 
@@ -66,3 +103,4 @@ class MyProfileFragment : Fragment(R.layout.fragment_my_profile) {
                 "Se va a mostrar a continuación los animes que has agregado a tu lista para ver"
     }
 }
+

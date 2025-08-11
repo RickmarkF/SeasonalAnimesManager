@@ -1,17 +1,14 @@
 package com.rickmark.seriesviewmanager.data
 
-import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.Query
 import com.rickmark.seriesviewmanager.domain.interfaces.IFarebaseRespository
-import com.rickmark.seriesviewmanager.domain.models.AlternativeTitles
 
-class FirebaseRepository: IFarebaseRespository {
+class FirebaseRepository : IFarebaseRespository {
 
     private var database: DatabaseReference = FirebaseDatabase
         .getInstance("https://seriesviewmanager.europe-west1.firebasedatabase.app/")
@@ -20,9 +17,7 @@ class FirebaseRepository: IFarebaseRespository {
     private val user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
 
 
-
-
-    override fun writeInFirebase(animeName: String,animeId: Int?) {
+    override fun writeInFirebase(animeName: String, animeId: Int?) {
         val safeName = animeName.replace(Regex("[.#$\\[\\]]"), "_")
         val email: String = getUserEmail()
         val year: Int = CalendarUtilities.getYear()
@@ -36,16 +31,24 @@ class FirebaseRepository: IFarebaseRespository {
     }
 
     override fun readFromFirebase(): Task<DataSnapshot?> {
-        var animes: Map<String, String> = mapOf()
         val email: String = getUserEmail()
         val year: Int = CalendarUtilities.getYear()
         val season: String = CalendarUtilities.getSeason()
 
-        val result  = database.child(email)
+        val result = database.child(email)
             .child(year.toString())
             .child(season)
             .get()
 
+        return result
+    }
+
+    override fun readFromFirebase(year: Int, season: String): Task<DataSnapshot?> {
+        val email: String = getUserEmail()
+        val result = database.child(email)
+            .child(year.toString())
+            .child(season)
+            .get()
         return result
     }
 
@@ -62,7 +65,7 @@ class FirebaseRepository: IFarebaseRespository {
         if (email.isEmpty()) {
             return ""
         }
-        return email.split("@").joinToString(separator = "_"){
+        return email.split("@").joinToString(separator = "_") {
             it.replace(".", "_")
         }
     }

@@ -20,7 +20,7 @@ class AnimeManager : IAnimeManager {
     private var request = RequestManager()
 
     @OptIn(ExperimentalSerializationApi::class)
-    override fun getAnimeFromMyanimeList(
+    override suspend fun getAnimeFromMyanimeList(
         editText: EditText,
         mostrar: TextView,
         image: ImageView,
@@ -64,11 +64,11 @@ class AnimeManager : IAnimeManager {
 
     }
 
-    override fun getSeasonalAnime(season: String, year: Int): List<Data>? {
+    override suspend fun getSeasonalAnime(season: String, year: Int): List<Data>? {
         return request.getSeasonalAnime(season, year)
     }
 
-    override fun getAnimeDetails(id: Int?): AnimeDetails? {
+    override suspend fun getAnimeDetails(id: Int?): AnimeDetails? {
         return request.getAnimeDetails(id)
     }
 }

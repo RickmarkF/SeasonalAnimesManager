@@ -8,13 +8,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.bumptech.glide.Glide
 import com.rickmark.seriesviewmanager.R
 import com.rickmark.seriesviewmanager.domain.constants.NavegationRutes
 import com.rickmark.seriesviewmanager.domain.models.Data
 
 class SeasonalAnimeRecyclerAdapter(private val dataSet: List<Data>, private val context: Context) :
-    RecyclerView.Adapter<SeasonalAnimeRecyclerAdapter.ViewHolder>() {
+    Adapter<SeasonalAnimeRecyclerAdapter.ViewHolder>() {
 
     /**
      * Provide a reference to the type of views that you are using
