@@ -56,8 +56,16 @@ class FirebaseRepository : IFarebaseRespository {
         TODO("Not yet implemented")
     }
 
-    override fun deleteFromFirebase() {
-        TODO("Not yet implemented")
+    override fun deleteFromFirebase(animeName: String) {
+        val safeName = animeName.replace(Regex("[.#$\\[\\]]"), "_")
+        val email: String = getUserEmail()
+        val year: Int = CalendarUtilities.getYear()
+        val season: String = CalendarUtilities.getSeason()
+        database.child(email)
+            .child(year.toString())
+            .child(season)
+            .child(safeName)
+            .removeValue()
     }
 
     private fun getUserEmail(): String {

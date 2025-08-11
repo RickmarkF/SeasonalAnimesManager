@@ -1,5 +1,6 @@
 package com.rickmark.seriesviewmanager.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
@@ -22,6 +23,7 @@ import com.rickmark.seriesviewmanager.domain.interfaces.IFarebaseRespository
 import com.rickmark.seriesviewmanager.domain.models.AnimeDetails
 import com.rickmark.seriesviewmanager.domain.models.Data
 import com.rickmark.seriesviewmanager.ui.reciclerViews.MyProfileRecyclerAdapter
+import com.rickmark.seriesviewmanager.ui.seasonalAnime.ViewSeasonalAnimeActivity
 import kotlinx.coroutines.launch
 import kotlin.getValue
 
@@ -40,6 +42,13 @@ class MyProfileFragment : Fragment(R.layout.fragment_my_profile) {
         val yearSpinner: Spinner = view.findViewById<Spinner>(R.id.year_anime_spinner)
         val anime_whistliss: RecyclerView = view.findViewById<RecyclerView>(R.id.season_anime_list)
         val showAnimeButton: Button = view.findViewById<Button>(R.id.show_anime_button)
+        val singOutButton: Button = view.findViewById<Button>(R.id.sing_out_button)
+
+        singOutButton.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+            val sendIntent = Intent(activity, LoginActivity::class.java)
+            startActivity(sendIntent)
+        }
 
         updateUserName(userName)
         val seasons: Array<String> = resources.getStringArray(R.array.seasons)
@@ -70,6 +79,10 @@ class MyProfileFragment : Fragment(R.layout.fragment_my_profile) {
 
         repository.readFromFirebase(year.toInt(), season).addOnSuccessListener { dataSnapshot ->
             lifecycleScope.launch {
+                if (dataSnapshot?.value == null){
+                    return@launch
+                }
+
                 val result: Map<String, Long> = dataSnapshot?.value as Map<String, Long>
                 val animes: MutableList<Data> = mutableListOf()
                 result.forEach { (key, value) ->

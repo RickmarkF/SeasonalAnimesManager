@@ -6,6 +6,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.rickmark.seriesviewmanager.domain.interfaces.IUserAuthenticator
 import com.rickmark.seriesviewmanager.ui.LoginActivity
 import com.rickmark.seriesviewmanager.ui.SearchAnimeActivity
+import com.rickmark.seriesviewmanager.ui.seasonalAnime.ViewSeasonalAnimeActivity
 
 class UserAuthentication(
     private val context: LoginActivity
@@ -20,7 +21,7 @@ class UserAuthentication(
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(context) { task ->
                     if (task.isSuccessful) {
-                        val sendIntent = Intent(context, SearchAnimeActivity::class.java)
+                        val sendIntent = Intent(context, ViewSeasonalAnimeActivity::class.java)
                         Log.d("Login", "signInWithEmail:success")
                         context.startActivity(sendIntent)
                         context.finish()
@@ -35,7 +36,7 @@ class UserAuthentication(
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(context) { task ->
                     if (task.isSuccessful) {
-                        val sendIntent = Intent(context, SearchAnimeActivity::class.java)
+                        val sendIntent = Intent(context, ViewSeasonalAnimeActivity::class.java)
                         Log.d("Login", "signInWithEmail:success")
                         context.startActivity(sendIntent)
                         context.finish()

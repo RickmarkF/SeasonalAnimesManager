@@ -39,9 +39,19 @@
 
     </LinearLayout>
 
+
+    <Button
+        android:id="@+id/sing_out_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Sing Out"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/season_anime_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+
 
 </LinearLayout>
