@@ -3,25 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/favorite"
-        android:title="prime"
-        app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/search"
-        android:title="prime2"
-        app:showAsAction="ifRoom" />
-
-
-    <item
-        android:id="@+id/action_favorite"
-        android:title="uno"
-        app:showAsAction="never" />
-
-    <!-- Settings, must always be in the overflow. -->
-    <item
-        android:id="@+id/action_settings"
-        android:title="dos"
+        android:id="@+id/seasonal_anime_top_bar_save_anime"
+        android:title="Añadir a mi perfil"
         app:showAsAction="never" />
 
 </menu>
