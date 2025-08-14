@@ -67,6 +67,7 @@ class MyProfileFragment : Fragment(R.layout.my_profile_fragment) {
                 auth.logoutUser()
                 val sendIntent = Intent(activity, LoginActivity::class.java)
                 startActivity(sendIntent)
+                activity?.finish()
             }
         }
 
