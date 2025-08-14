@@ -28,7 +28,6 @@ class DetailSeasonalAnimeFragment : Fragment(R.layout.show_detail_seasonal_anime
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val animeId: Int? = arguments?.getInt("anime_id")
-        val nav = findNavController()
 
 
         val animeImage: ImageView = view.findViewById(R.id.anime_details_anime_image_view)

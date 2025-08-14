@@ -16,7 +16,7 @@ import com.rickmark.seriesviewmanager.domain.pojos.seasonal_anime_list.Data
 
 class MyProfileRecyclerAdapter(
     private val animes: MutableList<Data>,
-    private val c: Context
+    private val context: Context
 ) : RecyclerView.Adapter<MyProfileRecyclerAdapter.ViewHolder>() {
 
 
@@ -35,7 +35,7 @@ class MyProfileRecyclerAdapter(
         position: Int
     ) {
         holder.textView.text = animes[position].node.title
-        Glide.with(c).load(animes[position].node.mainPicture.large).into(holder.imageView)
+        Glide.with(context).load(animes[position].node.mainPicture.large).into(holder.imageView)
         holder.animeID = animes[position].node.id.toInt()
     }
 
@@ -52,7 +52,7 @@ class MyProfileRecyclerAdapter(
             view.setOnClickListener {
                 val text = textView.text
 
-                val builder: AlertDialog.Builder = AlertDialog.Builder(c)
+                val builder: AlertDialog.Builder = AlertDialog.Builder(context)
                 builder
                     .setMessage("¿Quieres eliminar este anime?: $text")
                     .setTitle("Eliminar anime")

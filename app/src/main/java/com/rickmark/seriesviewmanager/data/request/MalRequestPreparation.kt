@@ -18,9 +18,6 @@ import kotlinx.serialization.json.Json
 
 class MalRequestPreparation(val resources: Resources,val token: String) {
 
-    private val repository: IFarebaseRespository = FirebaseRepository()
-
-
     var url: String = ""
         set(value) {
             field = baseUrl.plus(value)
