@@ -37,6 +37,11 @@ class LoginActivity : AppCompatActivity(R.layout.login_activity) {
             startActivity(sendIntent)
             finish()
         }
+
+        editTextEmailAddress = findViewById(R.id.login_email_edit_text)
+        editTextPassword = findViewById(R.id.login_password_edit_text)
+        buttonCreateAccount = findViewById(R.id.login_create_account_button)
+        buttonLogin = findViewById(R.id.login_account_button)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,11 +52,6 @@ class LoginActivity : AppCompatActivity(R.layout.login_activity) {
             findViewById(R.id.login),
             this::prepareWindowInsets
         )
-
-        editTextEmailAddress = findViewById(R.id.login_email_edit_text)
-        editTextPassword = findViewById(R.id.login_password_edit_text)
-        buttonCreateAccount = findViewById(R.id.login_create_account_button)
-        buttonLogin = findViewById(R.id.login_account_button)
 
 
         buttonCreateAccount.setOnClickListener() {
