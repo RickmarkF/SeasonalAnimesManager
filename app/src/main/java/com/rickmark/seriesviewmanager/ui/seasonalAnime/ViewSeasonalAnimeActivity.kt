@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isEmpty
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.createGraph
 import androidx.navigation.fragment.NavHostFragment
@@ -16,100 +17,133 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.rickmark.seriesviewmanager.R
-import com.rickmark.seriesviewmanager.data.SupportActionBarViewModel
-import com.rickmark.seriesviewmanager.domain.constants.NavegationRutes
-import com.rickmark.seriesviewmanager.ui.MyProfileFragment
-import com.rickmark.seriesviewmanager.data.SeasonalAnimeViewModel
+import com.rickmark.seriesviewmanager.data.view_models.SeasonalAnimeViewModel
+import com.rickmark.seriesviewmanager.data.view_models.SupportActionBarViewModel
+import com.rickmark.seriesviewmanager.ui.my_profile.MyProfileFragment
+import com.rickmark.seriesviewmanager.ui.seasonalAnime.details.DetailSeasonalAnimeFragment
+import com.rickmark.seriesviewmanager.ui.seasonalAnime.show.ShowSeasonalAnimesFragment
 import kotlinx.coroutines.launch
 
-class ViewSeasonalAnimeActivity : AppCompatActivity(R.layout.activity_view_seasonal_anime) {
+class ViewSeasonalAnimeActivity : AppCompatActivity(R.layout.show_seasonal_animes_activity) {
 
     private val actionBarViewModel: SupportActionBarViewModel by viewModels()
     private val seasonalAnimeViewModel: SeasonalAnimeViewModel by viewModels()
+
+    private lateinit var navegation_seasonal_animes: String
+    private lateinit var navegation_detail_animes: String
+    private lateinit var navegation_profile: String
+
+    private lateinit var toolbar: Toolbar
+    private lateinit var navHostFragment: NavHostFragment
+    private lateinit var navBottom: BottomNavigationView
+
+
+    override fun onStart() {
+        super.onStart()
+        navegation_seasonal_animes = getString(R.string.navegation_seasonal_animes)
+        navegation_detail_animes = getString(R.string.navegation_detail_animes)
+        navegation_profile = getString(R.string.navegation_profile)
+
+        navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.seasonal_anime_nav_host)
+                    as NavHostFragment
+
+        toolbar = findViewById(R.id.seasonal_anime_toolbar)
+
+        navBottom = findViewById(R.id.app_bottom_nav)
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
         lifecycleScope.launch {
-            seasonalAnimeViewModel.loadSeasonalAnimesIfNeeded()
-
-            val navHostFragment =
-                supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
-            val navController = navHostFragment.navController
-            navController.graph = navController.createGraph(
-                startDestination = NavegationRutes.FRAGMENT_SEASONAL_ANIMES,
-            ) {
-                fragment<ShowSeasonalAnimesFragment>(NavegationRutes.FRAGMENT_SEASONAL_ANIMES)
-                fragment<DetailSeasonalAnimeFragment>("${NavegationRutes.FRAGMENT_ANIME_DETAIL}/{anime_id}") {
-                    label = "Detalles anime"
-                    argument("anime_id") {
-                        type = NavType.IntType
-                    }
-                }
-
-                fragment<MyProfileFragment>(NavegationRutes.FRAGMENT_PROFILE) {
-                    label = "Perfil"
-                }
+            seasonalAnimeViewModel.also {
+                it.loadResources(resources)
+                it.loadSeasonalAnimesIfNeeded()
             }
 
-            val toolbar: Toolbar = findViewById(R.id.my_toolbar)
-            setSupportActionBar(toolbar)
-            actionBarViewModel.setToolbar(toolbar)
-            actionBarViewModel.setActionBar(supportActionBar)
+            prepareSeasonalAnimesNavegation()
+            prepareNavButton()
+        }
 
-            val topLevelIds: List<Int> = navController.graph.filter {
-                it.route == NavegationRutes.FRAGMENT_PROFILE ||
-                        it.route == NavegationRutes.FRAGMENT_SEASONAL_ANIMES
-            }.map {
-                it.id
-            }
+    }
 
-            navController.addOnDestinationChangedListener { _, destination, _ ->
 
-                when (destination.route) {
-                    NavegationRutes.FRAGMENT_SEASONAL_ANIMES -> {
-                        supportActionBar?.hide()
-                        if (toolbar.menu.isEmpty()) {
-                            toolbar.inflateMenu(R.menu.top_app_bar)
-                        }
-
-                    }
-
-                    else -> {
-                        supportActionBar?.show()
-                    }
+    private fun prepareSeasonalAnimesNavegation(): Unit {
+        val navController: NavController = navHostFragment.navController
+        navController.graph = navController.createGraph(
+            startDestination = navegation_seasonal_animes,
+        ) {
+            fragment<ShowSeasonalAnimesFragment>(navegation_seasonal_animes)
+            fragment<DetailSeasonalAnimeFragment>("$navegation_detail_animes/{anime_id}") {
+                label = "Detalles anime"
+                argument("anime_id") {
+                    type = NavType.IntType
                 }
             }
 
-            val appBarConfiguration =
-                AppBarConfiguration.Builder(topLevelDestinationIds = topLevelIds.toSet())
-                    .build()
-            toolbar.setupWithNavController(navController, appBarConfiguration)
+            fragment<MyProfileFragment>(navegation_profile) {
+                label = "Perfil"
+            }
+        }
 
+        setSupportActionBar(toolbar)
+        actionBarViewModel.setToolbar(toolbar)
+        actionBarViewModel.setActionBar(supportActionBar)
 
-            val navBottom: BottomNavigationView = findViewById(R.id.bottomNavigationView)
-            navBottom.menu.clear()
-            navBottom.inflateMenu(R.menu.navegation)
-            navBottom.setOnItemSelectedListener {
-                when (it.itemId) {
-                    R.id.seasonal_animes -> {
-                        navController.navigate(NavegationRutes.FRAGMENT_SEASONAL_ANIMES)
-                        supportActionBar?.hide()
-                        true
+        val topLevelIds: List<Int> = navController.graph.filter {
+            it.route == navegation_profile ||
+                    it.route == navegation_seasonal_animes
+        }.map {
+            it.id
+        }
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+
+            when (destination.route) {
+                navegation_seasonal_animes -> {
+                    supportActionBar?.hide()
+                    if (toolbar.menu.isEmpty()) {
+                        toolbar.inflateMenu(R.menu.top_app_bar)
                     }
 
-                    R.id.profile -> {
-                        navController.navigate(NavegationRutes.FRAGMENT_PROFILE)
-                        toolbar.menu.clear()
-                        true
-                    }
+                }
 
-                    else -> false
+                else -> {
+                    supportActionBar?.show()
                 }
             }
         }
 
+        val appBarConfiguration =
+            AppBarConfiguration.Builder(topLevelDestinationIds = topLevelIds.toSet()).build()
+        toolbar.setupWithNavController(navController, appBarConfiguration)
+    }
+
+
+    private fun prepareNavButton() {
+        val navController: NavController = navHostFragment.navController
+        navBottom.menu.clear()
+        navBottom.inflateMenu(R.menu.menus_navegation)
+        navBottom.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.nav_seasonal_animes -> {
+                    navController.navigate(navegation_seasonal_animes)
+                    supportActionBar?.hide()
+                    true
+                }
+
+                R.id.nav_my_profile -> {
+                    navController.navigate(navegation_profile)
+                    toolbar.menu.clear()
+                    true
+                }
+
+                else -> false
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
