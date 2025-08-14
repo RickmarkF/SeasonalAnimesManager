@@ -8,6 +8,7 @@ interface IFarebaseRespository {
     fun readFromFirebase(): Task<DataSnapshot?>
     fun readFromFirebase(year: Int, season: String): Task<DataSnapshot?>
     fun deleteFromFirebase(animeName: String): Unit
+    fun getMalToken(): Task<DataSnapshot?>
 
 
 }

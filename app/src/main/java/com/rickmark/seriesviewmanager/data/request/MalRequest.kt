@@ -7,9 +7,12 @@ import com.rickmark.seriesviewmanager.domain.pojos.seasonal_anime_list.AnimeSeas
 import com.rickmark.seriesviewmanager.domain.pojos.seasonal_anime_list.Data
 import io.ktor.client.call.body
 
-class MalRequest(resources: Resources) : IMalRequestManager {
-    private var requestPreparartion = MalRequestPreparation(resources = resources)
+class MalRequest() : IMalRequestManager {
+    private lateinit var requestPreparartion: MalRequestPreparation
 
+    constructor(token: String, resources: Resources) : this() {
+        requestPreparartion = MalRequestPreparation(resources, token)
+    }
 
     override suspend fun getSeasonalAnime(season: String, year: Int): List<Data>? {
 

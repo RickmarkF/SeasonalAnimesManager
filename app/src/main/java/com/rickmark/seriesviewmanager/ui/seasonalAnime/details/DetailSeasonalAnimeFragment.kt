@@ -29,7 +29,7 @@ class DetailSeasonalAnimeFragment : Fragment(R.layout.show_detail_seasonal_anime
         super.onViewCreated(view, savedInstanceState)
         val animeId: Int? = arguments?.getInt("anime_id")
         val nav = findNavController()
-        val manager: IMalRequestManager = MalRequest(resources = resources)
+
 
         val animeImage: ImageView = view.findViewById(R.id.anime_details_anime_image_view)
         val sinopsys: TextView = view.findViewById(R.id.anime_details_synopsis_text_view)
@@ -41,43 +41,48 @@ class DetailSeasonalAnimeFragment : Fragment(R.layout.show_detail_seasonal_anime
         val alternativeTittlesSpinner: Spinner =
             view.findViewById(R.id.anime_details_alternative_Tittles_Spinner)
 
-        lifecycleScope.launch {
-            val details: AnimeSeasonDetails? = manager.getAnimeDetails(animeId)
+        repository.getMalToken().addOnSuccessListener {
+            lifecycleScope.launch {
 
-            if (details != null) {
+                val manager: IMalRequestManager = MalRequest(token = it?.value.toString(),resources = resources)
+                val details: AnimeSeasonDetails? = manager.getAnimeDetails(animeId)
 
-                val tittleList: ArrayList<String> = details.alternativeTitles.synonyms
-                tittleList.add(details.alternativeTitles.english)
-                tittleList.add(details.alternativeTitles.japanese)
+                if (details != null) {
 
-
-                startSeason.text = "Season Inicial del anime: ${details.startSeason}"
-                startDate.text = "Fecha de inicio: ${details.startDate}"
-                episodesNum.text = "Número de episodios: ${details.numEpisodes}"
-                sinopsys.text = details.synopsis
+                    val tittleList: ArrayList<String> = details.alternativeTitles.synonyms
+                    tittleList.add(details.alternativeTitles.english)
+                    tittleList.add(details.alternativeTitles.japanese)
 
 
-                updateSpinner(context, alternativeTittlesSpinner, tittleList)
-                Glide.with(view.context).load(details.mainPicture.large)
-                    .into(animeImage)
+                    startSeason.text = "Season Inicial del anime: ${details.startSeason}"
+                    startDate.text = "Fecha de inicio: ${details.startDate}"
+                    episodesNum.text = "Número de episodios: ${details.numEpisodes}"
+                    sinopsys.text = details.synopsis
 
 
-                barViewModel.getsetActionBar().show()
-                barViewModel.getToolbar().setOnMenuItemClickListener { menuItem ->
-                    when (menuItem.itemId) {
-                        R.id.seasonal_anime_top_bar_save_anime -> {
-                            repository.writeInFirebase(details.title, animeId)
-                            true
+                    updateSpinner(context, alternativeTittlesSpinner, tittleList)
+                    Glide.with(view.context).load(details.mainPicture.large)
+                        .into(animeImage)
+
+
+                    barViewModel.getsetActionBar().show()
+                    barViewModel.getToolbar().setOnMenuItemClickListener { menuItem ->
+                        when (menuItem.itemId) {
+                            R.id.seasonal_anime_top_bar_save_anime -> {
+                                repository.writeInFirebase(details.title, animeId)
+                                true
+                            }
+
+                            else -> false
                         }
-
-                        else -> false
                     }
                 }
-            }
+        }
+
+
 
         }
 
 
-    }
+    }}
 
-}

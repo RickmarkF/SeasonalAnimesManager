@@ -17,8 +17,10 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.rickmark.seriesviewmanager.R
+import com.rickmark.seriesviewmanager.data.firebase.repository.FirebaseRepository
 import com.rickmark.seriesviewmanager.data.view_models.SeasonalAnimeViewModel
 import com.rickmark.seriesviewmanager.data.view_models.SupportActionBarViewModel
+import com.rickmark.seriesviewmanager.domain.interfaces.firebase.IFarebaseRespository
 import com.rickmark.seriesviewmanager.ui.my_profile.MyProfileFragment
 import com.rickmark.seriesviewmanager.ui.seasonalAnime.details.DetailSeasonalAnimeFragment
 import com.rickmark.seriesviewmanager.ui.seasonalAnime.show.ShowSeasonalAnimesFragment
@@ -29,6 +31,7 @@ class ViewSeasonalAnimeActivity : AppCompatActivity(R.layout.show_seasonal_anime
     private val actionBarViewModel: SupportActionBarViewModel by viewModels()
     private val seasonalAnimeViewModel: SeasonalAnimeViewModel by viewModels()
 
+    private val repository: IFarebaseRespository = FirebaseRepository()
     private lateinit var navegation_seasonal_animes: String
     private lateinit var navegation_detail_animes: String
     private lateinit var navegation_profile: String
@@ -58,15 +61,19 @@ class ViewSeasonalAnimeActivity : AppCompatActivity(R.layout.show_seasonal_anime
         super.onCreate(savedInstanceState)
 
 
-        lifecycleScope.launch {
-            seasonalAnimeViewModel.also {
-                it.loadResources(resources)
-                it.loadSeasonalAnimesIfNeeded()
-            }
+        repository.getMalToken().addOnSuccessListener { data ->
+            lifecycleScope.launch {
+                seasonalAnimeViewModel.also {
+                    it.loadRequest(data?.value.toString(),resources)
+                    it.loadSeasonalAnimesIfNeeded()
+                }
 
-            prepareSeasonalAnimesNavegation()
-            prepareNavButton()
+                prepareSeasonalAnimesNavegation()
+                prepareNavButton()
+            }
         }
+
+
 
     }
 

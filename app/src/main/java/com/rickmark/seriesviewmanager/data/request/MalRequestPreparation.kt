@@ -2,6 +2,8 @@ package com.rickmark.seriesviewmanager.data.request
 
 import android.content.res.Resources
 import com.rickmark.seriesviewmanager.R
+import com.rickmark.seriesviewmanager.data.firebase.repository.FirebaseRepository
+import com.rickmark.seriesviewmanager.domain.interfaces.firebase.IFarebaseRespository
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.HttpTimeout
@@ -14,9 +16,10 @@ import io.ktor.client.statement.HttpResponse
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
-class MalRequestPreparation(val resources: Resources) {
+class MalRequestPreparation(val resources: Resources,val token: String) {
 
-    private val token: String = "ad1162093716f04f8cba96898a43d093";
+    private val repository: IFarebaseRespository = FirebaseRepository()
+
 
     var url: String = ""
         set(value) {

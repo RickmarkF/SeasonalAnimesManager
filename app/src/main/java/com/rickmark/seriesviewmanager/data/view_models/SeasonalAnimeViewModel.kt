@@ -31,8 +31,8 @@ class SeasonalAnimeViewModel() : ViewModel() {
         }
     }
 
-    fun loadResources(resources: Resources) {
-        manager = MalRequest(resources = resources)
+    fun loadRequest(token: String, resources: Resources) {
+        manager = MalRequest(resources = resources, token = token)
 
     }
 

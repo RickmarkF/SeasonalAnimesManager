@@ -46,6 +46,11 @@ class FirebaseRepository : IFarebaseRespository {
         getBaseUrl().child(animeNameForFirebase).removeValue()
     }
 
+    override fun getMalToken(): Task<DataSnapshot?> {
+        val result = database.child("token").get()
+        return result
+    }
+
     private fun getBaseUrl(): DatabaseReference {
         val email: String = formatUserEmail()
         val year: Int = CalendarUtilities.Companion.getYear()
