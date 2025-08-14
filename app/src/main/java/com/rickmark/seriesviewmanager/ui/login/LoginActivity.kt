@@ -30,7 +30,7 @@ class LoginActivity : AppCompatActivity(R.layout.login_activity) {
 
     public override fun onStart() {
         super.onStart()
-        userAuthenticator = FirebaseUserAuthentication(this)
+        userAuthenticator = FirebaseUserAuthentication()
         val currentUser = userAuthenticator.getCurrentUser()
         if (currentUser != null) {
             val sendIntent = Intent(this, ViewSeasonalAnimeActivity::class.java)
@@ -62,9 +62,9 @@ class LoginActivity : AppCompatActivity(R.layout.login_activity) {
         }
     }
 
-    private inline fun authenticateUser(autenticate: (email: String, password: String) -> Unit): Unit {
+    private inline fun authenticateUser(autenticate: (context: AppCompatActivity,email: String, password: String) -> Unit): Unit {
         val email: String = editTextEmailAddress.text.toString()
         val password: String = editTextPassword.text.toString()
-        autenticate(email, password)
+        autenticate(this,email, password)
     }
 }
