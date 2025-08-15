@@ -3,18 +3,17 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.plugin.seralization)
     alias(libs.plugins.google.gms.google.services)
-    id("androidx.navigation.safeargs.kotlin")
 
 }
 
 android {
     namespace = "com.rickmark.seriesviewmanager"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.rickmark.seriesviewmanager"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -30,18 +29,22 @@ android {
             )
         }
     }
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
+
     buildFeatures {
         viewBinding = true
     }
 
+    ndkVersion = "28.0.13004108"
 }
+
 
 dependencies {
 
@@ -50,8 +53,6 @@ dependencies {
     implementation(libs.androidx.navigation.dynamic.features.fragment)
     implementation(libs.androidx.fragment)
     implementation(libs.androidx.fragment.ktx)
-
-
 
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.cio)

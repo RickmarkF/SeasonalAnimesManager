@@ -1,28 +1,27 @@
 [versions]
-agp = "8.9.3"
-fragment = "1.8.8"
-kotlin = "2.1.10"
-kotlin-seralization = "1.8.20"
-coreKtx = "1.16.0"
+agp = "8.12.0"
+fragment = "1.8.9"
+kotlin = "2.2.0"
+kotlin-seralization = "2.2.0"
+coreKtx = "1.17.0"
 junit = "4.13.2"
-junitVersion = "1.2.1"
-espressoCore = "3.6.1"
+junitVersion = "1.3.0"
+espressoCore = "3.7.0"
 appcompat = "1.7.1"
 material = "1.12.0"
 activity = "1.10.1"
 constraintlayout = "2.2.1"
-ktor = "3.1.1"
-nanohttpd = "2.3.0"
+ktor = "3.2.3"
 glide= "4.16.0"
-kotlinx-serialization-json = "1.6.0"
-googleGmsGoogleServices = "4.4.2"
-firebase-Database = "21.0.0"
-firebase-analytics = "22.4.0"
-firebase-bom = "33.15.0"
-firebase-auth = "23.2.1"
-navigationDynamicFeaturesFragment = "2.9.1"
-navigationFragmentKtx = "2.9.1"
-navigationUiKtx = "2.9.1"
+kotlinx-serialization-json = "1.9.0"
+googleGmsGoogleServices = "4.4.3"
+firebase-Database = "22.0.0"
+firebase-analytics = "23.0.0"
+firebase-bom = "34.1.0"
+firebase-auth = "24.0.1"
+navigationDynamicFeaturesFragment = "2.9.3"
+navigationFragmentKtx = "2.9.3"
+navigationUiKtx = "2.9.3"
 recyclerview = "1.4.0"
 
 
@@ -38,8 +37,6 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 
 androidx-navigation-dynamic-features-fragment = { module = "androidx.navigation:navigation-dynamic-features-fragment", version.ref = "navigationDynamicFeaturesFragment" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
-
-nanohttpd = { group = "org.nanohttpd", name = "nanohttpd", version.ref = "nanohttpd" }
 
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
