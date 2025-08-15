@@ -4,12 +4,15 @@ import android.content.res.Resources
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.rickmark.seriesviewmanager.data.request.MalRequest
-import com.rickmark.seriesviewmanager.data.utilities.CalendarUtilities
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
+import androidx.lifecycle.viewmodel.CreationExtras
+import com.rickmark.seriesviewmanager.data.app_utilities.CalendarUtilities
+import com.rickmark.seriesviewmanager.data.mal_request.MalRequest
 import com.rickmark.seriesviewmanager.domain.interfaces.mal.IMalRequestManager
-import com.rickmark.seriesviewmanager.domain.pojos.seasonal_anime_list.Data
+import com.rickmark.seriesviewmanager.domain.pojos.seasonal_animes.anime_list.Data
 
-class SeasonalAnimeViewModel() : ViewModel() {
+class SeasonalAnimeViewModel(private val resources: Resources) : ViewModel() {
     private lateinit var manager: IMalRequestManager
 
     private val _seasonalAnimes = MutableLiveData<List<Data>>()
@@ -17,23 +20,35 @@ class SeasonalAnimeViewModel() : ViewModel() {
 
 
     val season: String
-        get() = CalendarUtilities.getSeason()
+        get() = CalendarUtilities.determineSeason()
     val year: Int
-        get() = CalendarUtilities.getYear()
+        get() = CalendarUtilities.determineDay()
 
+    companion object {
 
-    suspend fun loadSeasonalAnimesIfNeeded(): Unit {
-        if (_seasonalAnimes.value.isNullOrEmpty()) {
-            val data: List<Data>? = manager.getSeasonalAnime(season, year)
-            if (data != null) {
-                _seasonalAnimes.value = data.sortedBy { it.node.title }
+        val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel> create(
+                modelClass: Class<T>,
+                extras: CreationExtras
+            ): T {
+                val application = checkNotNull(extras[APPLICATION_KEY])
+
+                return SeasonalAnimeViewModel(
+                    application.resources
+                ) as T
             }
         }
     }
 
-    fun loadRequest(token: String, resources: Resources) {
-        manager = MalRequest(resources = resources, token = token)
-
+    suspend fun loadSeasonalAnimesIfNeeded(token: String) {
+        if (_seasonalAnimes.value.isNullOrEmpty()) {
+            manager = MalRequest(resources = resources, token = token)
+            val seasonalAnimeList: List<Data>? = manager.getSeasonalAnime(season, year)
+            if (seasonalAnimeList != null) {
+                _seasonalAnimes.value = seasonalAnimeList.sortedBy { it.node.title }
+            }
+        }
     }
 
 

@@ -13,23 +13,26 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.rickmark.seriesviewmanager.R
-import com.rickmark.seriesviewmanager.data.firebase.authentication.FirebaseUserAuthentication
-import com.rickmark.seriesviewmanager.data.firebase.repository.FirebaseRepository
-import com.rickmark.seriesviewmanager.data.utilities.CalendarUtilities
-import com.rickmark.seriesviewmanager.data.utilities.UiUtilities.Companion.updateSpinner
+import com.rickmark.seriesviewmanager.data.app_utilities.CalendarUtilities
+import com.rickmark.seriesviewmanager.data.app_utilities.UiUtilities.Companion.updateSpinner
+import com.rickmark.seriesviewmanager.data.firebase_connection.authentication.FirebaseUserAuthentication
+import com.rickmark.seriesviewmanager.data.firebase_connection.repository.FirebaseRepository
 import com.rickmark.seriesviewmanager.data.view_models.SeasonalAnimeViewModel
 import com.rickmark.seriesviewmanager.domain.interfaces.firebase.IFarebaseRespository
 import com.rickmark.seriesviewmanager.domain.interfaces.firebase.IFirebaseUserAuthenticator
-import com.rickmark.seriesviewmanager.domain.pojos.seasonal_anime_list.Data
+import com.rickmark.seriesviewmanager.domain.pojos.seasonal_animes.anime_list.Data
 import com.rickmark.seriesviewmanager.ui.login.LoginActivity
 import kotlinx.coroutines.launch
 
 class MyProfileFragment : Fragment(R.layout.my_profile_fragment) {
 
-    val repository: IFarebaseRespository = FirebaseRepository()
-    val auth: IFirebaseUserAuthenticator = FirebaseUserAuthentication()
+    private val repository: IFarebaseRespository = FirebaseRepository()
+    private val auth: IFirebaseUserAuthenticator = FirebaseUserAuthentication()
 
-    private val seasonalAnimeViewModel: SeasonalAnimeViewModel by activityViewModels()
+    private lateinit var selectedSeason: String
+    private lateinit var selectedYear: String
+
+    private val seasonalAnimeViewModel: SeasonalAnimeViewModel by activityViewModels() { SeasonalAnimeViewModel.Factory }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,7 +54,7 @@ class MyProfileFragment : Fragment(R.layout.my_profile_fragment) {
 
         val yearSpinner: Spinner = view.findViewById(R.id.my_profile_anime_year_spinner)
         yearSpinner.also {
-            val actualYear: Int = CalendarUtilities.Companion.getYear()
+            val actualYear: Int = CalendarUtilities.Companion.determineDay()
             val yearsList: MutableList<String> = mutableListOf()
             for (i in 2025..actualYear) {
                 yearsList.add(i.toString())
@@ -77,9 +80,15 @@ class MyProfileFragment : Fragment(R.layout.my_profile_fragment) {
         val showAnimeButton: Button =
             view.findViewById(R.id.my_profile_show_animes_saved_button)
 
+        selectedSeason = CalendarUtilities.determineSeason()
+        selectedYear = CalendarUtilities.determineDay().toString()
+        showAnime(anime_whistliss)
+
         showAnimeButton.also {
             it.setOnClickListener {
-                showAnime(anime_whistliss, seasonSpinner, yearSpinner)
+                selectedSeason = seasonSpinner.selectedItem.toString()
+                selectedYear = yearSpinner.selectedItem.toString()
+                showAnime(anime_whistliss)
             }
         }
 
@@ -87,41 +96,38 @@ class MyProfileFragment : Fragment(R.layout.my_profile_fragment) {
     }
 
     private fun showAnime(
-        anime_whistliss: RecyclerView,
-        seasonSpinner: Spinner,
-        yearSpinner: Spinner
+        anime_whistliss: RecyclerView
     ) {
 
-        val season: String = seasonSpinner.selectedItem.toString()
-        val year: String = yearSpinner.selectedItem.toString()
-
-        repository.readFromFirebase(year.toInt(), season).addOnSuccessListener { dataSnapshot ->
-            lifecycleScope.launch {
-                if (dataSnapshot?.value == null) {
-                    return@launch
-                }
-
-                val result: Map<String, Long> = dataSnapshot.value as Map<String, Long>
-                val anime: MutableList<Data> = mutableListOf()
-                result.forEach { (key, value) ->
-                    val data: Data? = seasonalAnimeViewModel.seasonalAnimes.value?.firstOrNull() {
-                        it.node.id == value
+        repository.readFromFirebase(selectedYear.toInt(), selectedSeason)
+            .addOnSuccessListener { dataSnapshot ->
+                lifecycleScope.launch {
+                    if (dataSnapshot?.value == null) {
+                        return@launch
                     }
-                    anime.add(data!!)
-                }
 
-                anime_whistliss.also {
-                    it.layoutManager = LinearLayoutManager(requireContext())
-                    it.adapter = MyProfileRecyclerAdapter(anime, requireContext())
+                    val result: Map<String, Long> = dataSnapshot.value as Map<String, Long>
+                    val anime: MutableList<Data> = mutableListOf()
+                    result.forEach { (key, value) ->
+                        val data: Data? =
+                            seasonalAnimeViewModel.seasonalAnimes.value?.firstOrNull() {
+                                it.node.id == value
+                            }
+                        anime.add(data!!)
+                    }
 
+                    anime_whistliss.also {
+                        it.layoutManager = LinearLayoutManager(requireContext())
+                        it.adapter = MyProfileRecyclerAdapter(anime, requireContext())
+
+                    }
                 }
             }
-        }
     }
 
 
     fun updateUserName(userName: TextView) {
-        userName.text = "Hola ${FirebaseAuth.getInstance().currentUser?.email}" +
-                "Se va a mostrar a continuación los animes que has agregado a tu lista para ver"
+        userName.text = "Hello ${FirebaseAuth.getInstance().currentUser?.email}" +
+                " . Welcome to your profile. You can see your anime whislist here"
     }
 }

@@ -15,7 +15,7 @@
         <Spinner
             android:id="@+id/anime_details_alternative_Tittles_Spinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_weight="1" />
 
         <LinearLayout
@@ -47,13 +47,13 @@
             android:id="@+id/anime_details_anime_image_view"
             android:layout_width="400dp"
             android:layout_height="200dp"
+            android:contentDescription="@string/seasonal_anime_image"
             android:src="@drawable/image_default" />
 
         <TextView
             android:id="@+id/anime_details_synopsis_text_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 

@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/seasonal_anime_top_bar_save_anime"
-        android:title="Añadir a mi perfil"
+        android:title="@string/add_new_anime_to_your_profile"
         app:showAsAction="never" />
 
 </menu>

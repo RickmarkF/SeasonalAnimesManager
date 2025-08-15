@@ -9,16 +9,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.rickmark.seriesviewmanager.R
-import com.rickmark.seriesviewmanager.domain.pojos.seasonal_anime_list.Data
+import com.rickmark.seriesviewmanager.data.app_utilities.UiUtilities.Companion.loadImage
+import com.rickmark.seriesviewmanager.domain.pojos.seasonal_animes.anime_list.Data
 
-class SeasonalAnimeRecyclerAdapter(
+class ShowSeasonalAnimesAdapter(
     private val dataSet: List<Data>,
-    private val context: Context,
-    private val resources: Resources
+    private val context: Context
 ) :
-    RecyclerView.Adapter<SeasonalAnimeRecyclerAdapter.ViewHolder>() {
+    RecyclerView.Adapter<ShowSeasonalAnimesAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
@@ -28,6 +27,7 @@ class SeasonalAnimeRecyclerAdapter(
         lateinit var data: Data
 
         init {
+            val resources: Resources = context.resources
 
             val anime_detail_navegation: String =
                 resources.getString(R.string.navegation_detail_animes)
@@ -50,10 +50,10 @@ class SeasonalAnimeRecyclerAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.texto.text = dataSet[position].node.title
-        val image: String? = dataSet[position].node.mainPicture?.large.toString()
         holder.data = dataSet[position]
+        val image: String? = dataSet[position].node.mainPicture.large
         if (!image.isNullOrEmpty()) {
-            Glide.with(context).load(image).into(holder.imagen);
+            loadImage(context, image, holder.imagen)
         }
 
 

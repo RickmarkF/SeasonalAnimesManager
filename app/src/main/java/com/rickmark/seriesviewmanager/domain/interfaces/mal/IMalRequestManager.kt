@@ -1,7 +1,7 @@
 package com.rickmark.seriesviewmanager.domain.interfaces.mal
 
-import com.rickmark.seriesviewmanager.domain.pojos.seasonal_anime_details.AnimeSeasonDetails
-import com.rickmark.seriesviewmanager.domain.pojos.seasonal_anime_list.Data
+import com.rickmark.seriesviewmanager.domain.pojos.seasonal_animes.anime_details.AnimeSeasonDetails
+import com.rickmark.seriesviewmanager.domain.pojos.seasonal_animes.anime_list.Data
 
 interface IMalRequestManager {
 

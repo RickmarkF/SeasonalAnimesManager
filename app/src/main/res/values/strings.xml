@@ -1,17 +1,20 @@
 <resources>
     <string name="app_name">SeriesViewManager</string>
-    <string name="texto_anime_temporada">Animes de la temporada de verano 2020</string>
+    <string name="navegation_seasonal_animes">seasonal_animes</string>
+    <string name="navegation_detail_animes">anime_detail</string>
+    <string name="navegation_profile">profile</string>
+    <string name="bottom_bar_my_profile">My profile</string>
+    <string name="bottom_bar_seasonal_animes">Seasonal animes</string>
+    <string name="add_new_anime_to_your_profile">Add anime to your profile\n</string>
+    <string name="seasonal_anime_image">Seasonal Anime Image\n</string>
+    <string name="show_animes_saved_for_this_season">Show animes saved for this season</string>
+    <string name="sing_out">Sing Out</string>
+    <string name="create_account">Create Account</string>
+    <string name="login">Login</string>
     <string-array name="seasons">
         <item>winter</item>
         <item>spring</item>
         <item>summer</item>
         <item>fall</item>
     </string-array>
-    <string name="navegation_seasonal_animes">seasonal_animes</string>
-    <string name="navegation_detail_animes">anime_detail</string>
-    <string name="navegation_profile">profile</string>
-    <string name="hello_blank_fragment">empty_value\n</string>
-    <string name="anime_de_la_temporada_imagen">Animes</string>
-    <string name="bottom_bar_my_profile">Mi perfil</string>
-    <string name="bottom_bar_seasonal_animes">Animes de temporada</string>
 </resources>

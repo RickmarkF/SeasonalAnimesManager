@@ -1,6 +1,6 @@
-package com.rickmark.seriesviewmanager.domain.pojos.seasonal_anime_details
+package com.rickmark.seriesviewmanager.domain.pojos.seasonal_animes.anime_details
 
-import com.rickmark.seriesviewmanager.domain.pojos.Picture
+import com.rickmark.seriesviewmanager.domain.pojos.seasonal_animes.commons.Picture
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonArray

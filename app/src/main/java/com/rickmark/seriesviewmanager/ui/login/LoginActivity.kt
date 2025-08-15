@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.rickmark.seriesviewmanager.R
-import com.rickmark.seriesviewmanager.data.firebase.authentication.FirebaseUserAuthentication
+import com.rickmark.seriesviewmanager.data.firebase_connection.authentication.FirebaseUserAuthentication
 import com.rickmark.seriesviewmanager.domain.interfaces.firebase.IFirebaseUserAuthenticator
 import com.rickmark.seriesviewmanager.ui.seasonalAnime.ViewSeasonalAnimeActivity
 
@@ -62,9 +62,9 @@ class LoginActivity : AppCompatActivity(R.layout.login_activity) {
         }
     }
 
-    private inline fun authenticateUser(autenticate: (context: AppCompatActivity,email: String, password: String) -> Unit): Unit {
+    private inline fun authenticateUser(autenticate: (context: AppCompatActivity, email: String, password: String) -> Unit): Unit {
         val email: String = editTextEmailAddress.text.toString()
         val password: String = editTextPassword.text.toString()
-        autenticate(this,email, password)
+        autenticate(this, email, password)
     }
 }

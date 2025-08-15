@@ -1,4 +1,4 @@
-package com.rickmark.seriesviewmanager.domain.pojos.seasonal_anime_list
+package com.rickmark.seriesviewmanager.domain.pojos.seasonal_animes.anime_list
 
 import kotlinx.serialization.Serializable
 

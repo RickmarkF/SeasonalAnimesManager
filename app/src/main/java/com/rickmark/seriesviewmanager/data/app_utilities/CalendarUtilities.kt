@@ -1,4 +1,4 @@
-package com.rickmark.seriesviewmanager.data.utilities
+package com.rickmark.seriesviewmanager.data.app_utilities
 
 import java.util.Calendar
 
@@ -11,11 +11,11 @@ class CalendarUtilities {
             return calendar
         }
 
-        fun getYear(): Int {
+        fun determineDay(): Int {
             return getCalendar().get(Calendar.YEAR)
         }
 
-        fun getSeason(): String {
+        fun determineSeason(): String {
             val month: Int = getCalendar().get(Calendar.MONTH)
             var season: String = ""
             when (month) {

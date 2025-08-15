@@ -13,26 +13,27 @@ import com.rickmark.seriesviewmanager.data.view_models.SeasonalAnimeViewModel
 
 class ShowSeasonalAnimesFragment : Fragment(R.layout.show_seasonal_animes_fragment) {
 
-    private val seasonalAnimeViewModel: SeasonalAnimeViewModel by activityViewModels()
+    private val seasonalAnimeViewModel: SeasonalAnimeViewModel by activityViewModels() { SeasonalAnimeViewModel.Factory }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val temporada: TextView = view.findViewById(R.id.seasonal_anime_current_season_text_view)
-        val seasonalAnimeRecyclerView: RecyclerView =
+        val seasonTextView: TextView =
+            view.findViewById(R.id.seasonal_anime_current_season_text_view)
+        val animesRecyclerView: RecyclerView =
             view.findViewById(R.id.seasonal_animes_recycler_view)
 
         seasonalAnimeViewModel.seasonalAnimes.observe(viewLifecycleOwner) { seasonalAnimeList ->
             if (seasonalAnimeList != null) {
-                temporada.text =
-                    "Temporada: ${seasonalAnimeViewModel.season}\n Año:${seasonalAnimeViewModel.year}"
-                temporada.textSize = 30f
-                seasonalAnimeRecyclerView.also {
+                seasonTextView.text =
+                    "Current Season: ${seasonalAnimeViewModel.season}\n " +
+                            "Current year:${seasonalAnimeViewModel.year}"
+                seasonTextView.textSize = 30f
+                animesRecyclerView.also {
                     it.layoutManager = GridLayoutManager(view.context, 2)
-                    it.adapter = SeasonalAnimeRecyclerAdapter(
+                    it.adapter = ShowSeasonalAnimesAdapter(
                         seasonalAnimeList,
-                        view.context,
-                        resources
+                        view.context
                     )
                 }
 

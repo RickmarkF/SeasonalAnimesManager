@@ -1,6 +1,7 @@
 package com.rickmark.seriesviewmanager.ui.seasonalAnime.details
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.Spinner
@@ -8,16 +9,15 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
 import com.rickmark.seriesviewmanager.R
-import com.rickmark.seriesviewmanager.data.firebase.repository.FirebaseRepository
-import com.rickmark.seriesviewmanager.data.request.MalRequest
-import com.rickmark.seriesviewmanager.data.utilities.UiUtilities.Companion.updateSpinner
+import com.rickmark.seriesviewmanager.data.app_utilities.UiUtilities.Companion.loadImage
+import com.rickmark.seriesviewmanager.data.app_utilities.UiUtilities.Companion.updateSpinner
+import com.rickmark.seriesviewmanager.data.firebase_connection.repository.FirebaseRepository
+import com.rickmark.seriesviewmanager.data.mal_request.MalRequest
 import com.rickmark.seriesviewmanager.data.view_models.SupportActionBarViewModel
 import com.rickmark.seriesviewmanager.domain.interfaces.firebase.IFarebaseRespository
 import com.rickmark.seriesviewmanager.domain.interfaces.mal.IMalRequestManager
-import com.rickmark.seriesviewmanager.domain.pojos.seasonal_anime_details.AnimeSeasonDetails
+import com.rickmark.seriesviewmanager.domain.pojos.seasonal_animes.anime_details.AnimeSeasonDetails
 import kotlinx.coroutines.launch
 
 class DetailSeasonalAnimeFragment : Fragment(R.layout.show_detail_seasonal_anime_fragment) {
@@ -43,7 +43,8 @@ class DetailSeasonalAnimeFragment : Fragment(R.layout.show_detail_seasonal_anime
         repository.getMalToken().addOnSuccessListener {
             lifecycleScope.launch {
 
-                val manager: IMalRequestManager = MalRequest(token = it?.value.toString(),resources = resources)
+                val manager: IMalRequestManager =
+                    MalRequest(token = it?.value.toString(), resources = resources)
                 val details: AnimeSeasonDetails? = manager.getAnimeDetails(animeId)
 
                 if (details != null) {
@@ -53,35 +54,44 @@ class DetailSeasonalAnimeFragment : Fragment(R.layout.show_detail_seasonal_anime
                     tittleList.add(details.alternativeTitles.japanese)
 
 
-                    startSeason.text = "Season Inicial del anime: ${details.startSeason}"
-                    startDate.text = "Fecha de inicio: ${details.startDate}"
-                    episodesNum.text = "Número de episodios: ${details.numEpisodes}"
+                    startSeason.text = "Anime initial season: ${details.startSeason}"
+                    startDate.text = "Anime initial date: ${details.startDate}"
+                    episodesNum.text = "Anime episodes number: ${details.numEpisodes}"
                     sinopsys.text = details.synopsis
 
 
                     updateSpinner(context, alternativeTittlesSpinner, tittleList)
-                    Glide.with(view.context).load(details.mainPicture.large)
-                        .into(animeImage)
+                    loadImage(view.context, details.mainPicture.large, animeImage)
 
 
                     barViewModel.getsetActionBar().show()
                     barViewModel.getToolbar().setOnMenuItemClickListener { menuItem ->
-                        when (menuItem.itemId) {
-                            R.id.seasonal_anime_top_bar_save_anime -> {
-                                repository.writeInFirebase(details.title, animeId)
-                                true
-                            }
-
-                            else -> false
-                        }
+                        writeDataInFirebase(menuItem, details, animeId)
                     }
                 }
+            }
+
+
         }
 
 
+    }
 
+    private fun writeDataInFirebase(
+        menuItem: MenuItem?,
+        details: AnimeSeasonDetails,
+        animeId: Int?
+    ): Boolean = when (menuItem?.itemId) {
+        R.id.seasonal_anime_top_bar_save_anime -> {
+            repository.writeInFirebase(details.title, animeId)
+            true
         }
 
+        else -> false
+    }
 
-    }}
+
+}
+
+
 

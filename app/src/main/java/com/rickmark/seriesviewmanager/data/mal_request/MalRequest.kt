@@ -1,10 +1,10 @@
-package com.rickmark.seriesviewmanager.data.request
+package com.rickmark.seriesviewmanager.data.mal_request
 
 import android.content.res.Resources
 import com.rickmark.seriesviewmanager.domain.interfaces.mal.IMalRequestManager
-import com.rickmark.seriesviewmanager.domain.pojos.seasonal_anime_details.AnimeSeasonDetails
-import com.rickmark.seriesviewmanager.domain.pojos.seasonal_anime_list.AnimeSeasonList
-import com.rickmark.seriesviewmanager.domain.pojos.seasonal_anime_list.Data
+import com.rickmark.seriesviewmanager.domain.pojos.seasonal_animes.anime_details.AnimeSeasonDetails
+import com.rickmark.seriesviewmanager.domain.pojos.seasonal_animes.anime_list.AnimeSeasonList
+import com.rickmark.seriesviewmanager.domain.pojos.seasonal_animes.anime_list.Data
 import io.ktor.client.call.body
 
 class MalRequest() : IMalRequestManager {
