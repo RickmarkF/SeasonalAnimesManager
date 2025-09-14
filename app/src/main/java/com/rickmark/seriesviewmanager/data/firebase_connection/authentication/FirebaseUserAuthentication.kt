@@ -26,8 +26,8 @@ class FirebaseUserAuthentication() : IFirebaseUserAuthenticator {
 
     }
 
-    override fun loginUser(context: AppCompatActivity, email: String, password: String) {
-        if (email.isNotEmpty() && password.isNotEmpty()) {
+    override fun loginUser(context: AppCompatActivity, email: String?, password: String) {
+        if (email?.isNotEmpty() == true && password.isNotEmpty()) {
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(context) { task ->
                     this.addSuccesfullistener(context, "Succesfully logged in")

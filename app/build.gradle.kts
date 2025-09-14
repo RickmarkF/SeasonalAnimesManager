@@ -45,9 +45,7 @@ android {
     ndkVersion = "28.0.13004108"
 }
 
-
 dependencies {
-
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.navigation.dynamic.features.fragment)
@@ -62,7 +60,6 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.glide)
 
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -75,7 +72,14 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.androidx.recyclerview)
 
-    testImplementation(libs.junit)
+    // Test
+    testImplementation(libs.junit) // JUnit 4
+    testImplementation(libs.androidx.test.core) // Robolectric env
+    testImplementation(libs.mockito.core) // Mockito
+    testImplementation(libs.mockito.kotlin) // Mockito-Kotlin
+    testImplementation(libs.mockk) // Mockk
+
+    // AndroidTest
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
