@@ -92,7 +92,7 @@ class FirebaseUserAuthenticationTest {
         `when`(mockAuth.createUserWithEmailAndPassword(anyString(), anyString()))
             .thenReturn(mockTask)
 
-        firebaseAuthClass.createUser(mock(AppCompatActivity::class.java), "test@mail.com", "123456")
+        firebaseAuthClass.createUser("test@mail.com", "123456"){}
         verify(mockAuth).createUserWithEmailAndPassword("test@mail.com", "123456")
     }
 
@@ -102,9 +102,9 @@ class FirebaseUserAuthenticationTest {
         `when`(mockAuth.signInWithEmailAndPassword(anyString(), anyString()))
             .thenReturn(mockTask)
 
-        firebaseAuthClass.loginUser(mock(AppCompatActivity::class.java), "test@mail.com", "123456")
+        firebaseAuthClass.loginUser("test@mail.com", "123456"){}
 
-        firebaseAuthClass.loginUser(mock(AppCompatActivity::class.java), null, "123456")
+        firebaseAuthClass.loginUser(null, "123456"){}
 
         verify(mockAuth,times(1))
             .signInWithEmailAndPassword(anyString(), anyString())

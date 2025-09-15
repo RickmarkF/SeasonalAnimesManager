@@ -82,4 +82,5 @@ dependencies {
     // AndroidTest
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.mockito.android)
 }

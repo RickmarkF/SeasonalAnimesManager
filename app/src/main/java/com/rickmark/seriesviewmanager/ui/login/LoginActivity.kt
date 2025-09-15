@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -62,9 +63,31 @@ class LoginActivity : AppCompatActivity(R.layout.login_activity) {
         }
     }
 
-    private inline fun authenticateUser(autenticate: (context: AppCompatActivity, email: String, password: String) -> Unit): Unit {
+    private inline fun authenticateUser(autenticate: ( email: String, password: String,
+                                                       callback: (Boolean) -> Unit) -> Unit): Unit {
         val email: String = editTextEmailAddress.text.toString()
         val password: String = editTextPassword.text.toString()
-        autenticate(this, email, password)
+        autenticate(email, password){
+            if(it){
+                addSuccesfullistener("Login Successful")
+            }else{
+                addFailedlistener("Login Failed")
+            }
+        }
+    }
+
+    private fun addSuccesfullistener(
+        message: String
+    ): Unit {
+        val sendIntent = Intent(this, ViewSeasonalAnimeActivity::class.java)
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        this.startActivity(sendIntent)
+        this.finish()
+    }
+
+    private fun addFailedlistener(
+        message: String
+    ): Unit {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 }

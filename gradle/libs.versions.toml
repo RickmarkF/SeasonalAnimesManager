@@ -19,6 +19,7 @@ firebase-Database = "22.0.0"
 firebase-analytics = "23.0.0"
 firebase-bom = "34.1.0"
 firebase-auth = "24.0.1"
+mockitoAndroid = "5.19.0"
 navigationDynamicFeaturesFragment = "2.9.3"
 navigationFragmentKtx = "2.9.3"
 navigationUiKtx = "2.9.3"
@@ -64,6 +65,7 @@ androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview"
 
 # Nuevas libs para test
 androidx-test-core = { module = "androidx.test:core", version.ref = "androidx-test-core" }
+mockito-android = { module = "org.mockito:mockito-android", version.ref = "mockitoAndroid" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito-kotlin" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
