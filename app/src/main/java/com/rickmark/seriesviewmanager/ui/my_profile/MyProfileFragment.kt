@@ -16,7 +16,7 @@ import com.rickmark.seriesviewmanager.R
 import com.rickmark.seriesviewmanager.data.app_utilities.CalendarUtilities
 import com.rickmark.seriesviewmanager.data.app_utilities.UiUtilities.Companion.updateSpinner
 import com.rickmark.seriesviewmanager.data.firebase_connection.authentication.FirebaseUserAuthentication
-import com.rickmark.seriesviewmanager.data.firebase_connection.repository.FirebaseRepository
+import com.rickmark.seriesviewmanager.data.firebase_connection.repository.FirebaseInfoRepository
 import com.rickmark.seriesviewmanager.data.view_models.SeasonalAnimeViewModel
 import com.rickmark.seriesviewmanager.domain.interfaces.firebase.IFarebaseRespository
 import com.rickmark.seriesviewmanager.domain.interfaces.firebase.IFirebaseUserAuthenticator
@@ -24,9 +24,10 @@ import com.rickmark.seriesviewmanager.domain.pojos.seasonal_animes.anime_list.Da
 import com.rickmark.seriesviewmanager.ui.login.LoginActivity
 import kotlinx.coroutines.launch
 
+// Loads all user-specific anime from Firebase and allows filtering by season and year
 class MyProfileFragment : Fragment(R.layout.my_profile_fragment) {
 
-    private val repository: IFarebaseRespository = FirebaseRepository()
+    private val repository: IFarebaseRespository = FirebaseInfoRepository()
     private val auth: IFirebaseUserAuthenticator = FirebaseUserAuthentication()
 
     private lateinit var selectedSeason: String

@@ -15,7 +15,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.rickmark.seriesviewmanager.R
 import com.rickmark.seriesviewmanager.data.app_navegation.NavegationCreator
 import com.rickmark.seriesviewmanager.data.app_navegation.NavigationManager
-import com.rickmark.seriesviewmanager.data.firebase_connection.repository.FirebaseRepository
+import com.rickmark.seriesviewmanager.data.firebase_connection.repository.FirebaseInfoRepository
 import com.rickmark.seriesviewmanager.data.view_models.SeasonalAnimeViewModel
 import com.rickmark.seriesviewmanager.data.view_models.SupportActionBarViewModel
 import com.rickmark.seriesviewmanager.domain.interfaces.firebase.IFarebaseRespository
@@ -26,7 +26,7 @@ class ViewSeasonalAnimeActivity : AppCompatActivity(R.layout.show_seasonal_anime
     private val actionBarViewModel: SupportActionBarViewModel by viewModels()
     private val seasonalAnimeViewModel: SeasonalAnimeViewModel by viewModels() { SeasonalAnimeViewModel.Factory }
 
-    private val repository: IFarebaseRespository = FirebaseRepository()
+    private val repository: IFarebaseRespository = FirebaseInfoRepository()
 
     private lateinit var appNavegation: NavigationManager
     private lateinit var appNavegationCreator: NavegationCreator
@@ -53,7 +53,7 @@ class ViewSeasonalAnimeActivity : AppCompatActivity(R.layout.show_seasonal_anime
         navBottom = findViewById(R.id.app_bottom_nav)
     }
 
-
+    // At the beginning of the app, the list of seasonal anime is loaded
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -72,11 +72,14 @@ class ViewSeasonalAnimeActivity : AppCompatActivity(R.layout.show_seasonal_anime
     }
 
 
+    // This activity navigates to each user's profile and to the details of
+// a specific anime when tapping on one of the items displayed,
+// but only when the app is opened for the first time
     private fun configureSeasonalAnimesNavigation(): Unit {
         val navController: NavController = navHostFragment.navController
         navController.graph = appNavegationCreator.createAppNavGraph()
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            appNavegation.setDestinationChangedListener(
+            appNavegation.changeDestinationChangedListener(
                 navController,
                 destination,
                 null,
@@ -101,13 +104,13 @@ class ViewSeasonalAnimeActivity : AppCompatActivity(R.layout.show_seasonal_anime
 
 
     private fun configureNavButton() {
-        val navController: NavController = navHostFragment.navController
         navBottom.menu.clear()
         navBottom.inflateMenu(R.menu.menus_navegation)
         navBottom.setOnItemSelectedListener {
-            appNavegation.prepareNavBottomController(
-                it, navController,
-                toolbar, supportActionBar!!
+            appNavegationCreator.createNavBottomNavegation(
+                it,
+                toolbar,
+                supportActionBar!!
             )
         }
     }

@@ -1,6 +1,9 @@
 package com.rickmark.seriesviewmanager.data.app_navegation
 
 import android.content.res.Resources
+import android.view.MenuItem
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
 import androidx.navigation.NavGraphBuilder
@@ -37,6 +40,26 @@ class NavegationCreator() {
             startDestination = navegation_seasonal_animes,
             builder = prepareAppGraphBuilder()
         )
+    }
+
+    fun createNavBottomNavegation(
+        item: MenuItem,
+        toolbar: Toolbar,
+        supportActionBar: ActionBar
+    ): Boolean = when (item.itemId) {
+        R.id.nav_seasonal_animes -> {
+            navController.navigate(navegation_seasonal_animes)
+            supportActionBar.hide()
+            true
+        }
+
+        R.id.nav_my_profile -> {
+            navController.navigate(navegation_profile)
+            toolbar.menu.clear()
+            true
+        }
+
+        else -> false
     }
 
     private fun prepareAppGraphBuilder(): NavGraphBuilder.() -> Unit = {

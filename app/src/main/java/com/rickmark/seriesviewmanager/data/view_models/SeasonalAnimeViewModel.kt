@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.rickmark.seriesviewmanager.data.app_utilities.CalendarUtilities
-import com.rickmark.seriesviewmanager.data.mal_request.MalRequest
+import com.rickmark.seriesviewmanager.data.mal_request.MalRequestCreation
 import com.rickmark.seriesviewmanager.domain.interfaces.mal.IMalRequestManager
 import com.rickmark.seriesviewmanager.domain.pojos.seasonal_animes.anime_list.Data
 
@@ -43,7 +43,7 @@ class SeasonalAnimeViewModel(private val resources: Resources) : ViewModel() {
 
     suspend fun loadSeasonalAnimesIfNeeded(token: String) {
         if (_seasonalAnimes.value.isNullOrEmpty()) {
-            manager = MalRequest(resources = resources, token = token)
+            manager = MalRequestCreation(resources = resources, token = token)
             val seasonalAnimeList: List<Data>? = manager.getSeasonalAnime(season, year)
             if (seasonalAnimeList != null) {
                 _seasonalAnimes.value = seasonalAnimeList.sortedBy { it.node.title }

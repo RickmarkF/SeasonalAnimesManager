@@ -31,11 +31,11 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "11"
     }
 
     buildFeatures {
@@ -73,14 +73,17 @@ dependencies {
     implementation(libs.androidx.recyclerview)
 
     // Test
-    testImplementation(libs.junit) // JUnit 4
-    testImplementation(libs.androidx.test.core) // Robolectric env
-    testImplementation(libs.mockito.core) // Mockito
-    testImplementation(libs.mockito.kotlin) // Mockito-Kotlin
-    testImplementation(libs.mockk) // Mockk
+    testImplementation(libs.junit)
+    testImplementation(libs.androidx.test.core)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.espresso.core)
 
     // AndroidTest
     androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.mockito.android)
+    androidTestImplementation(libs.androidx.runner)
+    androidTestImplementation(libs.androidx.rules)
+    androidTestImplementation(libs.androidx.junit.v115)
+    androidTestImplementation(libs.androidx.espresso.core.v351)
 }

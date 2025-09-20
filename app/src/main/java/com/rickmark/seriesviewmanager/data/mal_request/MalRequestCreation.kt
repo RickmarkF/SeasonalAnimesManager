@@ -7,7 +7,7 @@ import com.rickmark.seriesviewmanager.domain.pojos.seasonal_animes.anime_list.An
 import com.rickmark.seriesviewmanager.domain.pojos.seasonal_animes.anime_list.Data
 import io.ktor.client.call.body
 
-class MalRequest() : IMalRequestManager {
+class MalRequestCreation() : IMalRequestManager {
     private lateinit var requestPreparartion: MalRequestPreparation
 
     constructor(token: String, resources: Resources) : this() {

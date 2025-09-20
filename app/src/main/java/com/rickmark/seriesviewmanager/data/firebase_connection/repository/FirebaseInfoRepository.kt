@@ -9,7 +9,7 @@ import com.rickmark.seriesviewmanager.data.firebase_connection.authentication.Fi
 import com.rickmark.seriesviewmanager.domain.interfaces.firebase.IFarebaseRespository
 import com.rickmark.seriesviewmanager.domain.interfaces.firebase.IFirebaseUserAuthenticator
 
-class FirebaseRepository : IFarebaseRespository {
+class FirebaseInfoRepository : IFarebaseRespository {
 
     private val FIREBASE_DATABASE_URL: String =
         "https://seriesviewmanager.europe-west1.firebasedatabase.app/"

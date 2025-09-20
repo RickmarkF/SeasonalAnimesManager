@@ -5,6 +5,8 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModel
 
+// This ViewModel manages showing and hiding the ActionBar
+// and Toolbar based on the currently displayed fragment
 class SupportActionBarViewModel : ViewModel() {
 
     private lateinit var actionBar: ActionBar

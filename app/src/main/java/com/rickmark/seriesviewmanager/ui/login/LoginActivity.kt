@@ -63,14 +63,18 @@ class LoginActivity : AppCompatActivity(R.layout.login_activity) {
         }
     }
 
-    private inline fun authenticateUser(autenticate: ( email: String, password: String,
-                                                       callback: (Boolean) -> Unit) -> Unit): Unit {
+    private inline fun authenticateUser(
+        autenticate: (
+            email: String, password: String,
+            callback: (Boolean) -> Unit
+        ) -> Unit
+    ): Unit {
         val email: String = editTextEmailAddress.text.toString()
         val password: String = editTextPassword.text.toString()
-        autenticate(email, password){
-            if(it){
+        autenticate(email, password) {
+            if (it) {
                 addSuccesfullistener("Login Successful")
-            }else{
+            } else {
                 addFailedlistener("Login Failed")
             }
         }

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rickmark.seriesviewmanager.R
 import com.rickmark.seriesviewmanager.data.app_utilities.UiUtilities.Companion.createAlertDialoge
 import com.rickmark.seriesviewmanager.data.app_utilities.UiUtilities.Companion.loadImage
-import com.rickmark.seriesviewmanager.data.firebase_connection.repository.FirebaseRepository
+import com.rickmark.seriesviewmanager.data.firebase_connection.repository.FirebaseInfoRepository
 import com.rickmark.seriesviewmanager.domain.interfaces.firebase.IFarebaseRespository
 import com.rickmark.seriesviewmanager.domain.pojos.seasonal_animes.anime_list.Data
 
@@ -23,7 +23,7 @@ class MyProfileRecyclerAdapter(
 
     @SuppressLint("NotifyDataSetChanged")
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val repository: IFarebaseRespository = FirebaseRepository()
+        val repository: IFarebaseRespository = FirebaseInfoRepository()
         val textView: TextView = view.findViewById(R.id.my_profile_anime_saved_anime_name_text_view)
         val imageView: ImageView = view.findViewById(R.id.my_profile_anime_saved_anime_image_view)
 

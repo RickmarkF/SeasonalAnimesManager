@@ -12,8 +12,8 @@ import androidx.lifecycle.lifecycleScope
 import com.rickmark.seriesviewmanager.R
 import com.rickmark.seriesviewmanager.data.app_utilities.UiUtilities.Companion.loadImage
 import com.rickmark.seriesviewmanager.data.app_utilities.UiUtilities.Companion.updateSpinner
-import com.rickmark.seriesviewmanager.data.firebase_connection.repository.FirebaseRepository
-import com.rickmark.seriesviewmanager.data.mal_request.MalRequest
+import com.rickmark.seriesviewmanager.data.firebase_connection.repository.FirebaseInfoRepository
+import com.rickmark.seriesviewmanager.data.mal_request.MalRequestCreation
 import com.rickmark.seriesviewmanager.data.view_models.SupportActionBarViewModel
 import com.rickmark.seriesviewmanager.domain.interfaces.firebase.IFarebaseRespository
 import com.rickmark.seriesviewmanager.domain.interfaces.mal.IMalRequestManager
@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 class DetailSeasonalAnimeFragment : Fragment(R.layout.show_detail_seasonal_anime_fragment) {
 
     private val barViewModel: SupportActionBarViewModel by activityViewModels()
-    private val repository: IFarebaseRespository = FirebaseRepository()
+    private val repository: IFarebaseRespository = FirebaseInfoRepository()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -44,7 +44,7 @@ class DetailSeasonalAnimeFragment : Fragment(R.layout.show_detail_seasonal_anime
             lifecycleScope.launch {
 
                 val manager: IMalRequestManager =
-                    MalRequest(token = it?.value.toString(), resources = resources)
+                    MalRequestCreation(token = it?.value.toString(), resources = resources)
                 val details: AnimeSeasonDetails? = manager.getAnimeDetails(animeId)
 
                 if (details != null) {

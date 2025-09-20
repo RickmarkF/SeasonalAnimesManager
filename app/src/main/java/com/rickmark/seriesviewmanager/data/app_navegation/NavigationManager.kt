@@ -1,7 +1,6 @@
 package com.rickmark.seriesviewmanager.data.app_navegation
 
 import android.content.res.Resources
-import android.view.MenuItem
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isEmpty
@@ -35,7 +34,7 @@ class NavigationManager() {
                 destination.route == navegation_seasonal_animes
     }
 
-    fun setDestinationChangedListener(
+    fun changeDestinationChangedListener(
         controller: NavController,
         destination: NavDestination,
         arguments: SavedState?,
@@ -58,24 +57,5 @@ class NavigationManager() {
         }
     }
 
-    fun prepareNavBottomController(
-        item: MenuItem,
-        navController: NavController,
-        toolbar: Toolbar,
-        supportActionBar: ActionBar
-    ): Boolean = when (item.itemId) {
-        R.id.nav_seasonal_animes -> {
-            navController.navigate(navegation_seasonal_animes)
-            supportActionBar.hide()
-            true
-        }
 
-        R.id.nav_my_profile -> {
-            navController.navigate(navegation_profile)
-            toolbar.menu.clear()
-            true
-        }
-
-        else -> false
-    }
 }

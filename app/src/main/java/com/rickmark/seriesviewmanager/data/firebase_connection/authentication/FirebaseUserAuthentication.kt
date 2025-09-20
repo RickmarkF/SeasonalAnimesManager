@@ -10,20 +10,28 @@ class FirebaseUserAuthentication() : IFirebaseUserAuthenticator {
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
-    override fun createUser(email: String?, password: String, callback: (Boolean) -> Unit): Task<AuthResult?>? {
+    override fun createUser(
+        email: String?,
+        password: String,
+        callback: (Boolean) -> Unit
+    ): Task<AuthResult?>? {
         var result: Task<AuthResult?>? = null
         if (email?.isNotEmpty() == true && password.isNotEmpty()) {
-           result = auth.createUserWithEmailAndPassword(email, password)
+            result = auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task -> callback(true) }
                 .addOnFailureListener { task -> callback(false) }
         }
         return result
     }
 
-    override fun loginUser(email: String?, password: String, callback: (Boolean) -> Unit): Task<AuthResult?>? {
+    override fun loginUser(
+        email: String?,
+        password: String,
+        callback: (Boolean) -> Unit
+    ): Task<AuthResult?>? {
         var result: Task<AuthResult?>? = null
         if (email?.isNotEmpty() == true && password.isNotEmpty()) {
-          result =  auth.signInWithEmailAndPassword(email, password)
+            result = auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task -> callback(true) }
                 .addOnFailureListener { task -> callback(false) }
         }

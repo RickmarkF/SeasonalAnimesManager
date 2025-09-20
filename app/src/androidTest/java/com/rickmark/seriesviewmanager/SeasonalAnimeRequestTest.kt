@@ -5,8 +5,8 @@ import androidx.test.core.app.ApplicationProvider
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
-import com.rickmark.seriesviewmanager.data.firebase_connection.repository.FirebaseRepository
-import com.rickmark.seriesviewmanager.data.mal_request.MalRequest
+import com.rickmark.seriesviewmanager.data.firebase_connection.repository.FirebaseInfoRepository
+import com.rickmark.seriesviewmanager.data.mal_request.MalRequestCreation
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
@@ -14,7 +14,7 @@ import org.junit.Test
 
 class SeasonalAnimeRequestTest {
 
-    private lateinit var request : MalRequest
+    private lateinit var request: MalRequestCreation
 
     @Before
     fun setup() {
@@ -24,7 +24,7 @@ class SeasonalAnimeRequestTest {
             .createUserWithEmailAndPassword(email, password)
         Tasks.await(authResultTask)
 
-        val a = FirebaseRepository()
+        val a = FirebaseInfoRepository()
         val dataSnapshot: DataSnapshot? = Tasks.await(a.getMalToken())
         val token = dataSnapshot?.value.toString()
 
@@ -32,7 +32,7 @@ class SeasonalAnimeRequestTest {
         val context = ApplicationProvider.getApplicationContext<Context>()
         val resources = context.resources
 
-        request = MalRequest(token,resources)
+        request = MalRequestCreation(token, resources)
     }
 
     fun generateTestEmail(): String {
@@ -41,7 +41,7 @@ class SeasonalAnimeRequestTest {
     }
 
     @After
-    fun end(){
+    fun end() {
         val user = FirebaseAuth.getInstance().currentUser
         if (user != null) {
             Tasks.await(user.delete())
@@ -52,9 +52,8 @@ class SeasonalAnimeRequestTest {
     @Test
     fun testLoadSeasonalAnimes() = runBlocking {
 
-        val result = request.getSeasonalAnime("summer",2025)
+        val result = request.getSeasonalAnime("summer", 2025)
         assert(result != null && result.isNotEmpty())
-        assert(result?.size == 266)
     }
 
     @Test

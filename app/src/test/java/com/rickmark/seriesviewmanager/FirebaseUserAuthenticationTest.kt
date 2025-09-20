@@ -5,13 +5,21 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.rickmark.seriesviewmanager.data.firebase_connection.authentication.FirebaseUserAuthentication
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
-import org.mockito.Mockito.*
-import org.mockito.MockitoAnnotations
 import org.mockito.MockedStatic
+import org.mockito.Mockito.any
+import org.mockito.Mockito.anyString
+import org.mockito.Mockito.mockStatic
+import org.mockito.Mockito.never
+import org.mockito.Mockito.times
+import org.mockito.Mockito.verify
+import org.mockito.Mockito.`when`
+import org.mockito.MockitoAnnotations
 
 class FirebaseUserAuthenticationTest {
 
@@ -36,10 +44,15 @@ class FirebaseUserAuthenticationTest {
         firebaseAuthStaticMock.`when`<FirebaseAuth> { FirebaseAuth.getInstance() }
             .thenReturn(mockAuth)
 
+        // Mock overload con Activity
         `when`(mockTask.addOnCompleteListener(any(AppCompatActivity::class.java), any()))
             .thenReturn(mockTask)
         `when`(mockTask.addOnFailureListener(any(AppCompatActivity::class.java), any()))
             .thenReturn(mockTask)
+
+        // Mock overload sin Activity (para evitar NullPointerException)
+        `when`(mockTask.addOnCompleteListener(any())).thenReturn(mockTask)
+        `when`(mockTask.addOnFailureListener(any())).thenReturn(mockTask)
 
         firebaseAuthClass = FirebaseUserAuthentication()
     }
@@ -50,7 +63,7 @@ class FirebaseUserAuthenticationTest {
     }
 
     @Test
-    fun `getCurrentUser devuelve usuario cuando está logueado`() {
+    fun `getCurrentUser returns user when logged in`() {
         `when`(mockAuth.currentUser).thenReturn(mockUser)
         `when`(mockUser.uid).thenReturn("12345")
 
@@ -61,7 +74,7 @@ class FirebaseUserAuthenticationTest {
     }
 
     @Test
-    fun `getCurrentUser devuelve null cuando no hay usuario`() {
+    fun `getCurrentUser returns null when no user exists`() {
         `when`(mockAuth.currentUser).thenReturn(null)
 
         val result = firebaseAuthClass.getCurrentUser()
@@ -70,7 +83,7 @@ class FirebaseUserAuthenticationTest {
     }
 
     @Test
-    fun `logoutUser llama a signOut cuando hay usuario`() {
+    fun `logoutUser calls signOut when user exists`() {
         `when`(mockAuth.currentUser).thenReturn(mockUser)
 
         firebaseAuthClass.logoutUser()
@@ -79,7 +92,7 @@ class FirebaseUserAuthenticationTest {
     }
 
     @Test
-    fun `logoutUser no llama a signOut cuando no hay usuario`() {
+    fun `logoutUser does not call signOut when no user exists`() {
         `when`(mockAuth.currentUser).thenReturn(null)
 
         firebaseAuthClass.logoutUser()
@@ -88,25 +101,24 @@ class FirebaseUserAuthenticationTest {
     }
 
     @Test
-    fun `createUser llama a createUserWithEmailAndPassword`() {
+    fun `createUser calls createUserWithEmailAndPassword`() {
         `when`(mockAuth.createUserWithEmailAndPassword(anyString(), anyString()))
             .thenReturn(mockTask)
 
-        firebaseAuthClass.createUser("test@mail.com", "123456"){}
+        firebaseAuthClass.createUser("test@mail.com", "123456") {}
         verify(mockAuth).createUserWithEmailAndPassword("test@mail.com", "123456")
     }
 
     @Test
-    fun `loginUser llama a signInWithEmailAndPassword`() {
-
+    fun `loginUser calls signInWithEmailAndPassword`() {
         `when`(mockAuth.signInWithEmailAndPassword(anyString(), anyString()))
             .thenReturn(mockTask)
 
-        firebaseAuthClass.loginUser("test@mail.com", "123456"){}
+        firebaseAuthClass.loginUser("test@mail.com", "123456") {}
 
-        firebaseAuthClass.loginUser(null, "123456"){}
+        firebaseAuthClass.loginUser(null, "123456") {}
 
-        verify(mockAuth,times(1))
+        verify(mockAuth, times(1))
             .signInWithEmailAndPassword(anyString(), anyString())
     }
 }

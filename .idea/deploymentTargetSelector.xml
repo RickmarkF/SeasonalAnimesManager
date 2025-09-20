@@ -13,13 +13,13 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="test()">
+      <SelectionState runConfigName="Tests in 'com.rickmark.seriesviewmanager'">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="testLoadSeasonalAnimes()">
+      <SelectionState runConfigName="testAppNavegation()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="testLoadAnimeDetails()">
+      <SelectionState runConfigName="inputTextShouldBeRetainedAfterActivityRecreation()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
